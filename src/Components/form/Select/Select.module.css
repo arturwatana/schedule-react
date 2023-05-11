@@ -1,0 +1,16 @@
+.select label {
+  color: #222;
+}
+
+.select select > option {
+  color: #222;
+}
+
+.select select {
+  margin-left: 2em;
+  border-radius: 0.3em;
+  height: 2em;
+  color: #222;
+  background-color: #d9d9d9;
+  text-align: center;
+}

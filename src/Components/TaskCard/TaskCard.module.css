@@ -1,0 +1,27 @@
+.taskCard {
+  background-color: #6a6a6a;
+  border-radius: 1em;
+  margin: 1em;
+  width: 20em;
+  height: 13em;
+}
+
+.taskCard div > p {
+  margin-top: 1em;
+}
+
+.taskCardTittle {
+  background-color: #4f9f74;
+  border-radius: 1em 1em 0 0;
+  color: #222;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  padding-left: 1em;
+  font-weight: bold;
+}
+
+.taskCard div > p > span {
+  color: #222;
+  font-weight: bold;
+}
