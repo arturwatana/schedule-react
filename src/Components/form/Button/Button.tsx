@@ -2,14 +2,15 @@ import styles from "./Button.module.css";
 
 type ButtonProps = {
   handleOnClick?: React.MouseEventHandler;
+  children?: React.ReactNode;
   text: string;
 };
 
-function Button({ text, handleOnClick }: ButtonProps) {
+function Button({ text, children, handleOnClick }: ButtonProps) {
   return (
     <>
       <button onClick={handleOnClick} className={styles.btn}>
-        {text}
+        {children} {text}
       </button>
     </>
   );
