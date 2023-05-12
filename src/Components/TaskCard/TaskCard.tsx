@@ -1,23 +1,33 @@
 import Button from "../form/Button/Button";
 import styles from "./TaskCard.module.css";
+import { AiOutlineEdit } from "react-icons/ai";
 
-function TaskCard() {
+type TaskCardProps = {
+  name: string;
+  urgency: string;
+  startDate: string;
+  endDate: string;
+};
+
+function TaskCard({ name, urgency, startDate, endDate }: TaskCardProps) {
   return (
     <div className={styles.taskCard}>
-      <p className={styles.taskCardTittle}>Nome da task</p>
+      <p className={styles.taskCardTittle}>{name}</p>
       <div>
         <p>
-          <span>Inicio:</span> 23/05/2023
+          <span>Inicio:</span> {startDate}
         </p>
         <p>
-          <span>Termino:</span> 26/05/2023
+          <span>Termino:</span> {endDate}
         </p>
         <p>
-          <span>Status:</span> Urgente
+          <span>Status:</span> {urgency}
         </p>
         <div className={styles.btn}>
-          <Button text="Concluir" />
-          <Button text="Editar" />
+          <Button text="Concluir"></Button>
+          <Button text="Editar">
+            <AiOutlineEdit />
+          </Button>
         </div>
       </div>
     </div>
