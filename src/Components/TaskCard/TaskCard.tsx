@@ -7,9 +7,18 @@ type TaskCardProps = {
   urgency: string;
   startDate: string;
   endDate: string;
+  handleEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
 };
 
-function TaskCard({ name, urgency, startDate, endDate }: TaskCardProps) {
+function TaskCard({
+  name,
+  urgency,
+  startDate,
+  endDate,
+  handleEditModal,
+  isOpen,
+}: TaskCardProps) {
   return (
     <div className={styles.taskCard}>
       <p className={styles.taskCardTittle}>{name}</p>
@@ -25,7 +34,11 @@ function TaskCard({ name, urgency, startDate, endDate }: TaskCardProps) {
         </p>
         <div className={styles.btn}>
           <Button text="Concluir"></Button>
-          <Button text="Editar">
+          <Button
+            text="Editar"
+            handleEditModal={handleEditModal}
+            isOpen={isOpen}
+          >
             <AiOutlineEdit />
           </Button>
         </div>

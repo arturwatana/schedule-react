@@ -4,3 +4,15 @@
   border-radius: 2em;
   width: 50%;
 }
+
+.modalBtn {
+  width: 30%;
+  height: 2.5em;
+  transform: 1s;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.modalBtn:hover {
+  opacity: 1;
+}

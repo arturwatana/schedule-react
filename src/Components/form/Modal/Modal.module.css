@@ -1,0 +1,30 @@
+.fadeIn {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 10;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-width: 90%;
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
