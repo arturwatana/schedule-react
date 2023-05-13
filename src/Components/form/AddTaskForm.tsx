@@ -5,7 +5,6 @@ import Button from "./Button/Button";
 import { useState } from "react";
 import { Task } from "../../entities/Task/Task.entity";
 import { AddTaskToDB } from "../../Task/useCases/AddTaskToDB.usecase";
-import { TaskRepository } from "../../repositories/Tasks/memory/taskRepository.memory";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 
 function AddTaskForm() {
