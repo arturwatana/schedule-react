@@ -34,4 +34,8 @@ export class TaskRepository implements ITaskRepository {
   async showAll(): Promise<Task[]> {
     return this.tasks;
   }
+  async findById(id: string): Promise<Task | null> {
+    const task = this.tasks.find((task) => task.id === id);
+    return task || null;
+  }
 }

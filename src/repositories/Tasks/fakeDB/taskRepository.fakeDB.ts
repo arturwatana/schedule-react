@@ -24,4 +24,30 @@ export class TaskRepositoryFake implements ITaskRepository {
 
     return tasksInDB;
   }
+
+  async findById(id: string): Promise<Task | null> {
+    const tasksInDB = fetch(`http://localhost:5000/tasks/${id}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+
+    return tasksInDB;
+  }
+  async updateTask(task: Task): Promise<Task> {
+    const taskInDB = fetch(`http://localhost:5000/tasks/${task.id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(task),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+
+    return taskInDB;
+  }
 }
