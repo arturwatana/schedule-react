@@ -6,8 +6,13 @@ import { useState } from "react";
 import { Task } from "../../entities/Task/Task.entity";
 import { AddTaskToDB } from "../../Task/useCases/AddTaskToDB.usecase";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
+import { DateFormat } from "../../utils/DateFormat/DateFormat";
 
-function AddTaskForm() {
+interface AddTaskFormProps {
+  setUpdateScreen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function AddTaskForm({ setUpdateScreen }: AddTaskFormProps) {
   const [endDate, setEndDate] = useState<string>("");
   const [urgency, setUrgency] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -18,7 +23,9 @@ function AddTaskForm() {
         setName(e.currentTarget.value);
         break;
       case "endDate":
-        setEndDate(e.currentTarget.value);
+        const dateFormat = new DateFormat();
+        const endDateFormated = dateFormat.endDateFormat(e.currentTarget.value);
+        setEndDate(endDateFormated);
         break;
       case "taskCategory":
         setUrgency(e.currentTarget.value);
@@ -33,7 +40,7 @@ function AddTaskForm() {
       const taskCreated = Task.create({ name, endDate, urgency });
       const addTaskToDB = new AddTaskToDB(taskRepository);
       await addTaskToDB.execute(taskCreated);
-      console.log("criada");
+      setUpdateScreen(true);
     } catch (err: any) {
       console.log(err.message);
     }
@@ -53,7 +60,7 @@ function AddTaskForm() {
         <Select handleOnChange={handleOnChange} name="taskCategory" />
         <Input
           name="endDate"
-          placeholder="ola"
+          placeholder="20/05/2023"
           text="Termino:"
           type="date"
           onChange={handleOnChange}

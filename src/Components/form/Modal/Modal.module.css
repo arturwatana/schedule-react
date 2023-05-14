@@ -28,3 +28,20 @@
   margin-bottom: 1rem;
   padding-bottom: 1rem;
 }
+.modalHeader p {
+  color: #222;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.modalHeader div {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+}

@@ -1,40 +1,32 @@
-import { Dispatch, SetStateAction } from "react";
 import styles from "./Button.module.css";
-import { Task } from "../../../entities/Task/Task.entity";
 
-type ButtonProps = {
-  handleEditModal?: React.Dispatch<React.SetStateAction<boolean>>;
+import { ButtonHTMLAttributes } from "react";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   text: string;
-  isOpen?: boolean;
-  customClass?: string;
-};
+  customClass?: string | string[];
+}
 
-function Button({
-  text,
-  children,
-  handleEditModal,
-  isOpen,
-  customClass,
-}: ButtonProps) {
-  function handleOnClick() {
-    if (handleEditModal) {
-      switch (isOpen) {
-        case true:
-          handleEditModal(false);
-          break;
-        case false:
-          handleEditModal(true);
-          break;
-      }
+function Button({ text, children, customClass, ...rest }: ButtonProps) {
+  let customClassIterator;
+  if (Array.isArray(customClass)) {
+    customClassIterator = customClass
+      .map((custom) => `${styles[custom]}`)
+      .join(" ");
+  }
+
+  if (customClass) {
+    if (typeof customClass === "string") {
+      customClassIterator = customClass;
     }
   }
 
   return (
     <>
       <button
-        onClick={handleOnClick}
-        className={`${styles.btn} ${styles[customClass ? customClass : 0]}`}
+        onClick={rest.onClick}
+        className={`${styles.btn} ${customClassIterator} `}
       >
         {children} {text}
       </button>
