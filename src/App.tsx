@@ -1,23 +1,22 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import NavBar from "./Components/layout/NavBar/NavBar";
 import Footer from "./Components/layout/Footer/Footer";
 import Container from "./Components/layout/Container/Container";
 import Home from "./pages/Home/Home";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
+    <Router>
       <NavBar />
       <Container customClass="minHeight">
-        <Home />
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
       </Container>
       <Footer />
-    </>
+    </Router>
   );
 }
 
