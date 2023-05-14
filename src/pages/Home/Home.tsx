@@ -11,56 +11,88 @@ import { useState, useEffect } from "react";
 function Home() {
   const [tasks, setTasks] = useState<Task[]>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [editTask, setEditTask] = useState<Task>({
+    name: "",
+    endDate: "",
+    id: "",
+    startDate: "",
+    urgency: "",
+    completed: false,
+  });
+  const [updateScreen, setUpdateScreen] = useState<boolean>(false);
 
-  const taskRepository = async () => {
-    const taskRepository = new TaskRepositoryFake();
-    const tasksInDB = await taskRepository.showAll();
-    return tasksInDB;
+  const taskRepository = () => {
+    setTimeout(async () => {
+      const taskRepository = new TaskRepositoryFake();
+      const db = await taskRepository.showAll();
+      setTasks(db);
+    }, 500);
   };
-  const getTasks = async () => {
-    const tasksInDB = await taskRepository();
-    setTasks(tasksInDB);
-  };
+
+  function renderTasks() {
+    if (!tasks) {
+      return (
+        <>
+          <Loading />
+        </>
+      );
+    }
+    if (tasks.length === 0) {
+      return (
+        <>
+          <p className={styles.zeroTasks}>Oba, nao há tasks para hoje</p>
+        </>
+      );
+    }
+    return tasks.map((task) => {
+      return (
+        <TaskCard
+          isOpen={modalOpen}
+          setUpdateScreen={setUpdateScreen}
+          handleEditModal={setModalOpen}
+          id={task.id}
+          name={task.name}
+          startDate={task.startDate}
+          completed={task.completed}
+          endDate={task.endDate}
+          urgency={task.urgency}
+          key={task.id}
+          editTask={setEditTask}
+        />
+      );
+    });
+  }
+
+  function handleUpdateScreen() {
+    if (updateScreen) {
+      setUpdateScreen(false);
+    }
+  }
+
   useEffect(() => {
-    setTimeout(() => {
-      getTasks();
-    }, 1000);
-  }, []);
+    taskRepository();
+    handleUpdateScreen();
+  }, [updateScreen]);
 
   return (
     <main className={styles.home}>
       {modalOpen ? (
-        <Modal isOpen={modalOpen} handleEditModal={setModalOpen} />
+        <Modal
+          setUpdateScreen={setUpdateScreen}
+          isOpen={modalOpen}
+          handleEditModal={setModalOpen}
+          taskProps={editTask}
+        />
       ) : null}
       <section className={styles.today}>
         <p className={styles.todayTittle}>Para hoje, temos:</p>
         <div className={styles.listCards}>
-          {tasks ? (
-            tasks.length > 0 ? (
-              tasks.map((task) => {
-                return (
-                  <TaskCard
-                    isOpen={modalOpen}
-                    handleEditModal={setModalOpen}
-                    name={task.name}
-                    startDate={task.startDate}
-                    endDate={task.endDate}
-                    urgency={task.urgency}
-                    key={task.id}
-                  />
-                );
-              })
-            ) : (
-              <p>Oba, nao há tasks para hoje</p>
-            )
-          ) : (
-            <Loading />
-          )}
+          {tasks ? renderTasks() : <Loading />}
         </div>
       </section>
       <div className={styles.menu}>
         <TimeCounter />
-        <AddTaskForm />
+        <AddTaskForm setUpdateScreen={setUpdateScreen} />
       </div>
     </main>
   );

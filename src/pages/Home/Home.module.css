@@ -44,3 +44,8 @@
   justify-content: space-between;
   height: 37em;
 }
+
+.zeroTasks {
+  color: #222;
+  margin-top: 2em;
+}
