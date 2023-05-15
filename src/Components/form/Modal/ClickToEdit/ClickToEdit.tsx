@@ -1,10 +1,10 @@
-import styles from "./TittleModal.module.css";
+import styles from "./ClickToEdit.module.css";
 import { InputHTMLAttributes } from "react";
-interface TittleModalProps extends InputHTMLAttributes<HTMLInputElement> {
+interface ClickToEditProps extends InputHTMLAttributes<HTMLInputElement> {
   previouslyName: string;
 }
 
-function TittleModal({ previouslyName, ...rest }: TittleModalProps) {
+function ClickToEdit({ previouslyName, ...rest }: ClickToEditProps) {
   return (
     <>
       <input
@@ -17,4 +17,4 @@ function TittleModal({ previouslyName, ...rest }: TittleModalProps) {
   );
 }
 
-export default TittleModal;
+export default ClickToEdit;
