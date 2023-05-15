@@ -7,12 +7,19 @@ import { Task } from "../../entities/Task/Task.entity";
 import { AddTaskToDB } from "../../Task/useCases/AddTaskToDB.usecase";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import { DateFormat } from "../../utils/DateFormat/DateFormat";
+import { MessageProps } from "../../pages/Home/Home";
 
 interface AddTaskFormProps {
   setUpdateScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  setMessage: React.Dispatch<React.SetStateAction<MessageProps>>;
+  setNotification: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddTaskForm({ setUpdateScreen }: AddTaskFormProps) {
+function AddTaskForm({
+  setUpdateScreen,
+  setMessage,
+  setNotification,
+}: AddTaskFormProps) {
   const [endDate, setEndDate] = useState<string>("");
   const [urgency, setUrgency] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -41,8 +48,17 @@ function AddTaskForm({ setUpdateScreen }: AddTaskFormProps) {
       const addTaskToDB = new AddTaskToDB(taskRepository);
       await addTaskToDB.execute(taskCreated);
       setUpdateScreen(true);
+      setMessage({
+        text: "Task Criada com sucesso!",
+        type: "success",
+      });
+      setNotification(true);
     } catch (err: any) {
-      console.log(err.message);
+      setMessage({
+        text: err.message,
+        type: "error",
+      });
+      setNotification(true);
     }
   }
 
@@ -57,7 +73,15 @@ function AddTaskForm({ setUpdateScreen }: AddTaskFormProps) {
           type="text"
           onChange={handleOnChange}
         />
-        <Select handleOnChange={handleOnChange} name="taskCategory" />
+        <Select
+          handleOnChange={handleOnChange}
+          name="taskCategory"
+          text="Urgencia:"
+        >
+          <option value="Nao Urgente">Nao urgente</option>
+          <option value="Pouco Urgente">Pouco urgente</option>
+          <option value="Muito Urgente">Muito urgente</option>
+        </Select>
         <Input
           name="endDate"
           placeholder="20/05/2023"

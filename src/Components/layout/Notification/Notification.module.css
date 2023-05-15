@@ -1,0 +1,64 @@
+.notification {
+  height: 3em;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: popUpNotification 3s linear forwards;
+  transition: 0.5s;
+  border-radius: 1em;
+  text-align: center;
+}
+.notification p {
+  color: #222;
+}
+
+.notificationContainer {
+  width: 15em;
+  height: 3em;
+  position: fixed;
+  left: 85%;
+  top: 10%;
+  overflow: hidden;
+}
+
+@keyframes popUpNotification {
+  0% {
+    opacity: 0.2;
+    left: 100%;
+  }
+
+  15% {
+    opacity: 0.6;
+    left: 50%;
+  }
+
+  30% {
+    opacity: 1;
+    left: 0%;
+  }
+
+  60% {
+    opacity: 1;
+    left: 0%;
+  }
+
+  85% {
+    opacity: 0.6;
+    left: 50%;
+  }
+
+  100% {
+    opacity: 0.2;
+    left: 100%;
+  }
+}
+
+.error {
+  background-color: rgb(254, 42, 4);
+}
+
+.success {
+  background-color: rgb(142, 200, 142);
+}

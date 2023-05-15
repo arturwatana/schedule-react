@@ -4,6 +4,7 @@ import styles from "./TaskCard.module.css";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useState } from "react";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
+import { MessageProps } from "../../pages/Home/Home";
 
 type TaskCardProps = {
   id: string;
@@ -11,11 +12,13 @@ type TaskCardProps = {
   urgency: string;
   startDate: string;
   endDate: string;
-  completed: boolean;
+  completed: string;
   handleEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setUpdateScreen: React.Dispatch<React.SetStateAction<boolean>>;
   isOpen: boolean;
   editTask?: React.Dispatch<React.SetStateAction<Task>>;
+  setNotification: React.Dispatch<React.SetStateAction<boolean>>;
+  setMessage: React.Dispatch<React.SetStateAction<MessageProps>>;
 };
 
 function TaskCard({
@@ -29,6 +32,8 @@ function TaskCard({
   setUpdateScreen,
   isOpen,
   editTask,
+  setNotification,
+  setMessage,
 }: TaskCardProps) {
   const db = new TaskRepositoryFake();
 
@@ -50,13 +55,17 @@ function TaskCard({
 
   async function handleCompleteTask() {
     const taskInDB = await db.findById(id);
-    if (taskInDB && taskInDB.completed === false) {
-      taskInDB.completed = true;
+    if (taskInDB && taskInDB.completed === "Em Andamento") {
+      taskInDB.completed = "Concluida";
       db.updateTask(taskInDB);
       setUpdateScreen(true);
+      setMessage({
+        text: "Oba, mais uma task finalizada!",
+        type: "success",
+      });
+      setNotification(true);
     }
   }
-
   return (
     <div className={styles.taskCard}>
       <p className={styles.taskCardTittle}>{name}</p>
@@ -71,7 +80,7 @@ function TaskCard({
           <span>Urgencia:</span> {urgency}
         </p>
         <p>
-          <span>Status:</span> {completed ? "Concluida" : "Em andamento"}
+          <span>Status:</span> {completed}
         </p>
         <div className={styles.btn}>
           <Button text="Concluir" onClick={handleCompleteTask}></Button>

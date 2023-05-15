@@ -1,19 +1,21 @@
 import { Task } from "../../../entities/Task/Task.entity";
 import { TaskRepositoryFake } from "../../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
-import { TaskRepository } from "../../../repositories/Tasks/memory/taskRepository.memory";
 import { DateFormat } from "../../../utils/DateFormat/DateFormat";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import styles from "./Modal.module.css";
 import { useState } from "react";
 import _, { find } from "lodash";
-import TittleModal from "./tittleModal/TittleModal";
+import ClickToEdit from "./ClickToEdit/ClickToEdit";
+import { MessageProps } from "../../../pages/Home/Home";
 
 type ModalProps = {
   isOpen: boolean;
   handleEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setUpdateScreen: React.Dispatch<React.SetStateAction<boolean>>;
   taskProps: Task;
+  setMessage: React.Dispatch<React.SetStateAction<MessageProps>>;
+  setNotification: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function Modal({
@@ -21,6 +23,8 @@ function Modal({
   handleEditModal,
   taskProps,
   setUpdateScreen,
+  setMessage,
+  setNotification,
 }: ModalProps) {
   const [endDate, setEndDate] = useState<string>(taskProps.endDate);
   const [urgency, setUrgency] = useState<string>(taskProps.urgency);
@@ -49,29 +53,39 @@ function Modal({
 
   async function editTaskInDB() {
     const findTaskInDB = await taskRepository.findById(taskProps.id);
-    if (findTaskInDB) {
-      const updatedTask = {
-        name,
-        urgency,
-        endDate,
-        id: findTaskInDB.id,
-        startDate: findTaskInDB.startDate,
-        completed: findTaskInDB.completed,
-      };
+    try {
+      if (findTaskInDB) {
+        const updatedTask = {
+          name,
+          urgency,
+          endDate,
+          id: findTaskInDB.id,
+          startDate: findTaskInDB.startDate,
+          completed: findTaskInDB.completed,
+        };
 
-      const isEqual = _.isEqual(findTaskInDB, updatedTask);
-      if (isEqual) {
+        const isEqual = _.isEqual(findTaskInDB, updatedTask);
+        if (isEqual) {
+          handleEditModal(false);
+          return;
+        }
+        await taskRepository.updateTask(updatedTask);
+        setUpdateScreen(true);
         handleEditModal(false);
-        return;
+        setMessage({
+          text: "Task atualizada com sucesso!",
+          type: "success",
+        });
+        setNotification(true);
       }
-      const updatedTaskInDB = await taskRepository.updateTask(updatedTask);
-      setUpdateScreen(true);
-      handleEditModal(false);
-    }
-  }
+    } catch (err: any) {
+      setMessage({
+        text: err.message,
+        type: "error",
+      });
 
-  function closeModal() {
-    handleEditModal(false);
+      setNotification(true);
+    }
   }
 
   function handleEditNameInput(e: any) {
@@ -98,11 +112,14 @@ function Modal({
 
   return (
     <div>
-      <div className={styles.fadeIn} onClick={closeModal}></div>
+      <div
+        className={styles.fadeIn}
+        onClick={() => handleEditModal(false)}
+      ></div>
       <div className={styles.modal}>
         <div className={styles.modalHeader} onClick={handleEditNameInput}>
           {openEditNameInput ? (
-            <TittleModal
+            <ClickToEdit
               previouslyName={name}
               id="modalTittle"
               name="name"
@@ -144,7 +161,7 @@ function Modal({
           <Button
             text="Fechar"
             customClass={buttonClasses}
-            onClick={closeModal}
+            onClick={() => handleEditModal(false)}
           />
         </div>
       </div>
