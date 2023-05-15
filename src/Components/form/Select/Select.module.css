@@ -7,10 +7,14 @@
 }
 
 .select select {
-  margin-left: 2em;
+  margin-left: 0.9em;
   border-radius: 0.3em;
   height: 2em;
   color: #222;
   background-color: #d9d9d9;
   text-align: center;
+}
+
+.margin-left {
+  margin-top: 0.5em;
 }

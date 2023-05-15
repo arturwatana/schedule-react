@@ -4,16 +4,23 @@ import { SelectHTMLAttributes } from "react";
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   handleOnChange: React.ChangeEventHandler;
   name: string;
+  children: React.ReactNode;
+  text: string;
+  customClass?: string;
 }
 
-function Select({ handleOnChange, name }: SelectProps) {
+function Select({
+  handleOnChange,
+  name,
+  children,
+  text,
+  customClass,
+}: SelectProps) {
   return (
-    <div className={styles.select}>
-      <label htmlFor={name}>Urgencia:</label>
+    <div className={`${styles.select} ${styles[customClass || ""]}`}>
+      <label htmlFor={name}>{text}</label>
       <select name={name} onChange={handleOnChange}>
-        <option value="Nao urgente">Nao urgente</option>
-        <option value="Pouco urgente">Pouco urgente</option>
-        <option value="Muito urgente">Muito urgente</option>
+        {children}
       </select>
     </div>
   );
