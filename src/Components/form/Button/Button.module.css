@@ -3,6 +3,7 @@
   color: #cacaca;
   border-radius: 2em;
   width: 50%;
+  cursor: pointer;
 }
 
 .modalBtn {
