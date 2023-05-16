@@ -44,22 +44,25 @@ function Home() {
   });
   const [notification, setNotification] = useState<boolean>(false);
 
-  const taskRepository = () => {
-    setTimeout(async () => {
-      try {
-        const taskRepository = new TaskRepositoryFake();
-        const db = await taskRepository.showAll();
-        setTasks(db);
-      } catch (err: any) {
-        if (err.message === "Error: TypeError: Failed to fetch") {
-          setMessage({
-            text: "Ops, nao foi possivel carregar suas tasks agora",
-            type: "error",
-          });
-          setNotification(true);
-        }
+  const taskRepository = async () => {
+    try {
+      const taskRepository = new TaskRepositoryFake();
+      const db = await taskRepository.showAll();
+      setTasks(db);
+      setMessage({
+        text: "Seja bem vindo!",
+        type: "success",
+      });
+      setNotification(true);
+    } catch (err: any) {
+      if (err.message === "Error: TypeError: Failed to fetch") {
+        setMessage({
+          text: "Ops, nao foi possivel carregar suas tasks agora",
+          type: "error",
+        });
+        setNotification(true);
       }
-    }, 500);
+    }
   };
 
   function renderTasks() {
