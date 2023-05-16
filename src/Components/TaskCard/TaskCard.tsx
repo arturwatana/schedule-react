@@ -2,7 +2,6 @@ import { Task } from "../../entities/Task/Task.entity";
 import Button from "../form/Button/Button";
 import styles from "./TaskCard.module.css";
 import { AiOutlineEdit } from "react-icons/ai";
-import { useState } from "react";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import { MessageProps } from "../../pages/Home/Home";
 
@@ -11,6 +10,7 @@ type TaskCardProps = {
   name: string;
   urgency: string;
   startDate: string;
+  description: string;
   endDate: string;
   completed: string;
   handleEditModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +28,7 @@ function TaskCard({
   startDate,
   endDate,
   completed,
+  description,
   handleEditModal,
   setUpdateScreen,
   isOpen,
@@ -41,12 +42,13 @@ function TaskCard({
     if (handleEditModal && isOpen === false) {
       if (editTask) {
         editTask({
-          id: id,
-          name: name,
-          startDate: startDate,
-          endDate: endDate,
-          urgency: urgency,
-          completed: completed,
+          id,
+          name,
+          urgency,
+          startDate,
+          endDate,
+          description,
+          completed,
         });
       }
       handleEditModal(true);
@@ -54,16 +56,26 @@ function TaskCard({
   }
 
   async function handleCompleteTask() {
-    const taskInDB = await db.findById(id);
-    if (taskInDB && taskInDB.completed === "Em Andamento") {
-      taskInDB.completed = "Concluida";
-      db.updateTask(taskInDB);
-      setUpdateScreen(true);
-      setMessage({
-        text: "Oba, mais uma task finalizada!",
-        type: "success",
-      });
-      setNotification(true);
+    try {
+      const taskInDB = await db.findById(id);
+      if (taskInDB && taskInDB.completed === "Em Andamento") {
+        taskInDB.completed = "Concluida";
+        db.updateTask(taskInDB);
+        setUpdateScreen(true);
+        setMessage({
+          text: "Oba, mais uma task finalizada!",
+          type: "success",
+        });
+        setNotification(true);
+      }
+    } catch (err: any) {
+      if (err.message === "Failed to fetch") {
+        setMessage({
+          text: "Ops, nao foi possivel carregar suas tasks agora",
+          type: "error",
+        });
+        setNotification(true);
+      }
     }
   }
   return (

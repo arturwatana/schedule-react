@@ -24,11 +24,12 @@ function Home() {
   const [tasks, setTasks] = useState<Task[]>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<Task>({
-    name: "",
-    endDate: "",
     id: "",
-    startDate: "",
+    name: "",
     urgency: "",
+    startDate: "",
+    endDate: "",
+    description: "",
     completed: "Em Andamento",
   });
   const [updateScreen, setUpdateScreen] = useState<boolean>(false);
@@ -44,14 +45,23 @@ function Home() {
 
   const taskRepository = () => {
     setTimeout(async () => {
-      const taskRepository = new TaskRepositoryFake();
-      const db = await taskRepository.showAll();
-      setTasks(db);
+      try {
+        const taskRepository = new TaskRepositoryFake();
+        const db = await taskRepository.showAll();
+        setTasks(db);
+      } catch (err: any) {
+        if (err.message === "Error: TypeError: Failed to fetch") {
+          setMessage({
+            text: "Ops, nao foi possivel carregar suas tasks agora",
+            type: "error",
+          });
+          setNotification(true);
+        }
+      }
     }, 500);
   };
 
   function renderTasks() {
-    console.log(tasks);
     if (!tasks) {
       return (
         <>
@@ -66,106 +76,111 @@ function Home() {
         </>
       );
     }
-    if (
-      stateFilter.status === "Mostrar Todas" &&
-      stateFilter.urgency === "Mostrar Todas"
-    ) {
-      const allTasks = tasks
-        .map((task) => {
-          return (
-            <TaskCard
-              setMessage={setMessage}
-              setNotification={setNotification}
-              isOpen={modalOpen}
-              key={task.id}
-              setUpdateScreen={setUpdateScreen}
-              handleEditModal={setModalOpen}
-              id={task.id}
-              name={task.name}
-              startDate={task.startDate}
-              completed={task.completed}
-              endDate={task.endDate}
-              urgency={task.urgency}
-              editTask={setEditTask}
-            />
-          );
-        })
-        .reverse();
-      return allTasks;
-    }
+    if (tasks) {
+      if (
+        stateFilter.status === "Mostrar Todas" &&
+        stateFilter.urgency === "Mostrar Todas"
+      ) {
+        const allTasks = tasks
+          .map((task) => {
+            return (
+              <TaskCard
+                description={task.description}
+                setMessage={setMessage}
+                setNotification={setNotification}
+                isOpen={modalOpen}
+                key={task.id}
+                setUpdateScreen={setUpdateScreen}
+                handleEditModal={setModalOpen}
+                id={task.id}
+                name={task.name}
+                startDate={task.startDate}
+                completed={task.completed}
+                endDate={task.endDate}
+                urgency={task.urgency}
+                editTask={setEditTask}
+              />
+            );
+          })
+          .reverse();
+        return allTasks;
+      }
 
-    if (
-      stateFilter.status !== "Mostrar Todas" &&
-      stateFilter.urgency !== "Mostrar Todas"
-    ) {
-      const filteredTasks = tasks.filter((task) => {
-        if (
-          task.completed === stateFilter.status &&
-          task.urgency === stateFilter.urgency
-        ) {
-          return task;
-        }
-      });
+      if (
+        stateFilter.status !== "Mostrar Todas" &&
+        stateFilter.urgency !== "Mostrar Todas"
+      ) {
+        const filteredTasks = tasks.filter((task) => {
+          if (
+            task.completed === stateFilter.status &&
+            task.urgency === stateFilter.urgency
+          ) {
+            return task;
+          }
+        });
 
-      const showFilteredTasks = filteredTasks
-        .map((task) => {
-          return (
-            <TaskCard
-              setMessage={setMessage}
-              setNotification={setNotification}
-              key={task.id}
-              isOpen={modalOpen}
-              setUpdateScreen={setUpdateScreen}
-              handleEditModal={setModalOpen}
-              editTask={setEditTask}
-              id={task.id}
-              name={task.name}
-              startDate={task.startDate}
-              completed={task.completed}
-              endDate={task.endDate}
-              urgency={task.urgency}
-            />
-          );
-        })
-        .reverse();
-      return showFilteredTasks;
-    }
+        const showFilteredTasks = filteredTasks
+          .map((task) => {
+            return (
+              <TaskCard
+                description={task.description}
+                setMessage={setMessage}
+                setNotification={setNotification}
+                key={task.id}
+                isOpen={modalOpen}
+                setUpdateScreen={setUpdateScreen}
+                handleEditModal={setModalOpen}
+                editTask={setEditTask}
+                id={task.id}
+                name={task.name}
+                startDate={task.startDate}
+                completed={task.completed}
+                endDate={task.endDate}
+                urgency={task.urgency}
+              />
+            );
+          })
+          .reverse();
+        return showFilteredTasks;
+      }
 
-    if (
-      stateFilter.status !== "Mostrar Todas" ||
-      stateFilter.urgency !== "Mostrar Todas"
-    ) {
-      const filteredTasks = tasks.filter((task) => {
-        if (
-          task.completed === stateFilter.status ||
-          task.urgency === stateFilter.urgency
-        ) {
-          return task;
-        }
-      });
+      if (
+        stateFilter.status !== "Mostrar Todas" ||
+        stateFilter.urgency !== "Mostrar Todas"
+      ) {
+        const filteredTasks = tasks.filter((task) => {
+          if (
+            task.completed === stateFilter.status ||
+            task.urgency === stateFilter.urgency
+          ) {
+            return task;
+          }
+        });
 
-      const showFilteredTasks = filteredTasks
-        .map((task) => {
-          return (
-            <TaskCard
-              setMessage={setMessage}
-              setNotification={setNotification}
-              key={task.id}
-              isOpen={modalOpen}
-              setUpdateScreen={setUpdateScreen}
-              handleEditModal={setModalOpen}
-              id={task.id}
-              name={task.name}
-              startDate={task.startDate}
-              completed={task.completed}
-              endDate={task.endDate}
-              urgency={task.urgency}
-              editTask={setEditTask}
-            />
-          );
-        })
-        .reverse();
-      return showFilteredTasks;
+        const showFilteredTasks = filteredTasks
+          .map((task) => {
+            return (
+              <TaskCard
+                description={task.description}
+                setMessage={setMessage}
+                setNotification={setNotification}
+                key={task.id}
+                isOpen={modalOpen}
+                setUpdateScreen={setUpdateScreen}
+                handleEditModal={setModalOpen}
+                id={task.id}
+                name={task.name}
+                startDate={task.startDate}
+                completed={task.completed}
+                endDate={task.endDate}
+                urgency={task.urgency}
+                editTask={setEditTask}
+              />
+            );
+          })
+          .reverse();
+        return showFilteredTasks;
+      }
     }
   }
 

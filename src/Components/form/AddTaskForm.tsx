@@ -44,9 +44,13 @@ function AddTaskForm({
     e.preventDefault();
     try {
       const taskRepository = new TaskRepositoryFake();
-      const taskCreated = Task.create({ name, endDate, urgency });
-      const addTaskToDB = new AddTaskToDB(taskRepository);
-      await addTaskToDB.execute(taskCreated);
+      const taskCreated = Task.create({
+        name,
+        endDate,
+        urgency,
+        description: "",
+      });
+      await taskRepository.save(taskCreated);
       setUpdateScreen(true);
       setMessage({
         text: "Task Criada com sucesso!",
@@ -54,11 +58,13 @@ function AddTaskForm({
       });
       setNotification(true);
     } catch (err: any) {
-      setMessage({
-        text: err.message,
-        type: "error",
-      });
-      setNotification(true);
+      if (err.message === "Error: TypeError: Failed to fetch") {
+        setMessage({
+          text: "Ops, nao foi possivel carregar suas tasks agora",
+          type: "error",
+        });
+        setNotification(true);
+      }
     }
   }
 

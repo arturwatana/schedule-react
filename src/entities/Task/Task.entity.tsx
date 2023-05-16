@@ -7,9 +7,10 @@ export class Task {
   urgency: string;
   startDate: string;
   endDate: string;
+  description: string;
   completed: string;
 
-  private constructor({ name, urgency, endDate }: TaskProps) {
+  private constructor({ name, urgency, endDate, description }: TaskProps) {
     if (!name) {
       throw new Error("Ops, toda task precisa de um nome.");
     }
@@ -28,6 +29,7 @@ export class Task {
     this.startDate = dateFormat.formatNewDate(new Date());
     this.endDate = endDateFormated();
     this.completed = "Em Andamento";
+    this.description = description;
   }
 
   static create(props: TaskProps) {

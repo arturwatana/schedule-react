@@ -8,6 +8,7 @@ import { useState } from "react";
 import _, { find } from "lodash";
 import ClickToEdit from "./ClickToEdit/ClickToEdit";
 import { MessageProps } from "../../../pages/Home/Home";
+import TextArea from "../TextArea/TextArea";
 
 type ModalProps = {
   isOpen: boolean;
@@ -29,6 +30,7 @@ function Modal({
   const [endDate, setEndDate] = useState<string>(taskProps.endDate);
   const [urgency, setUrgency] = useState<string>(taskProps.urgency);
   const [name, setName] = useState<string>(taskProps.name);
+  const [description, setDescription] = useState<string>(taskProps.description);
   const [openEditNameInput, setOpenEditNameInput] = useState<boolean>(false);
   const taskRepository = new TaskRepositoryFake();
   if (!isOpen) {
@@ -48,20 +50,24 @@ function Modal({
       case "urgency":
         setUrgency(e.currentTarget.value);
         break;
+      case "description":
+        setDescription(e.currentTarget.value);
+        break;
     }
   }
 
   async function editTaskInDB() {
-    const findTaskInDB = await taskRepository.findById(taskProps.id);
     try {
+      const findTaskInDB = await taskRepository.findById(taskProps.id);
       if (findTaskInDB) {
-        const updatedTask = {
+        const updatedTask: Task = {
           name,
           urgency,
           endDate,
           id: findTaskInDB.id,
           startDate: findTaskInDB.startDate,
           completed: findTaskInDB.completed,
+          description: description,
         };
 
         const isEqual = _.isEqual(findTaskInDB, updatedTask);
@@ -79,12 +85,13 @@ function Modal({
         setNotification(true);
       }
     } catch (err: any) {
-      setMessage({
-        text: err.message,
-        type: "error",
-      });
-
-      setNotification(true);
+      if (err.message === "Failed to fetch") {
+        setMessage({
+          text: "Ops, nao foi possivel carregar suas tasks agora",
+          type: "error",
+        });
+        setNotification(true);
+      }
     }
   }
 
@@ -150,6 +157,11 @@ function Modal({
             text="Urgencia:"
             placeholder={taskProps.urgency}
             onChange={handleOnChange}
+          />
+          <TextArea
+            text="Descricão:"
+            onChange={handleOnChange}
+            placeholder={taskProps.description}
           />
         </div>
         <div className={styles.btn}>
