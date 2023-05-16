@@ -3,6 +3,7 @@ import TimeCounter from "../../Components/TimeCounter/TimeCounter";
 import AddTaskForm from "../../Components/form/AddTaskForm";
 import Modal from "../../Components/form/Modal/Modal";
 import Select from "../../Components/form/Select/Select";
+import Clock from "../../Components/layout/Clock/Clock";
 import Loading from "../../Components/layout/Loading/Loading";
 import Notification from "../../Components/layout/Notification/Notification";
 import { Task } from "../../entities/Task/Task.entity";
@@ -267,7 +268,7 @@ function Home() {
         </div>
       </section>
       <div className={styles.menu}>
-        <TimeCounter />
+        <Clock />
         <AddTaskForm
           setNotification={setNotification}
           setUpdateScreen={setUpdateScreen}
