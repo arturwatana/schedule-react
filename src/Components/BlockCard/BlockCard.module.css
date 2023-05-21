@@ -1,0 +1,28 @@
+.blockCard {
+  height: 10em;
+  width: 10em;
+  background-color: red;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #222;
+  border-radius: 2em;
+  padding: 0 2em 0 2em;
+}
+.blockCard p,
+.blockCard h1,
+.blockCard span {
+  text-align: center;
+  margin-top: 0.3em;
+  color: #222;
+}
+
+.lightBlue {
+  background-color: #98dad9;
+}
+
+.blue {
+  background-color: #5689c0;
+}
