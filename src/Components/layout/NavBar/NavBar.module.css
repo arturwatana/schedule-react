@@ -1,37 +1,51 @@
 .navBar img {
-  width: 20em;
+  width: 15em;
+  background-color: #2e424d;
 }
 
 .navBar {
   display: flex;
   width: 100%;
   justify-content: center;
-  background: rgb(37, 105, 109);
-  background: linear-gradient(
-    90deg,
-    rgba(37, 105, 109, 1) 0%,
-    rgba(57, 119, 123, 1) 50%,
-    rgba(65, 124, 128, 1) 100%
-  );
-}
-
-@keyframes bgGradient {
+  background: #2e424d;
+  height: 5em;
 }
 
 .navBar nav {
   width: 70%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+}
+
+.navBar nav a {
+  text-decoration: none;
 }
 
 .navBar nav > ul {
+  height: 100%;
+  align-items: flex-end;
+  padding-bottom: 1em;
   display: flex;
   list-style: none;
-  margin-bottom: 2em;
 }
 
 .navBar nav > ul > li {
   margin-right: 2em;
   font-size: 22px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+
+.logo h1 {
+  margin-left: 0.5em;
+}
+
+.reactLogo {
+  font-size: 50px;
 }

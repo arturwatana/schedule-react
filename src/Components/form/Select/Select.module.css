@@ -15,6 +15,13 @@
   text-align: center;
 }
 
-.margin-left {
-  margin-top: 0.5em;
+.selectFilter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.selectFilter label {
+  margin-bottom: 0.3em;
 }

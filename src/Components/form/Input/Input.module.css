@@ -10,4 +10,12 @@
   margin: 1em 0 1em 1em;
   border: none;
   padding: 0 1em 0 1em;
+  border: 1px solid #222;
+}
+
+.nameFilter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

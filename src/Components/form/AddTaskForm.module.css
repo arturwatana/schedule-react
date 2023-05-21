@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #3a777b;
+  background-color: #2e424d;
   border-radius: 2em;
 }
 
@@ -20,7 +20,7 @@
   margin-top: 1em;
   display: flex;
   flex-direction: column;
-  background-color: #c3c2c2;
+  background-color: #eaebed;
   align-items: center;
   width: 100%;
   border-radius: 2em;
