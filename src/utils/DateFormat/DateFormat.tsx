@@ -1,7 +1,7 @@
 export class DateFormat {
   constructor() {}
 
-  endDateFormat(date: string) {
+  endDateFormat(date: string): string {
     const endDateFormated = date
       .split("-")
       .reverse()
@@ -10,11 +10,11 @@ export class DateFormat {
     return endDateFormated;
   }
 
-  formatNewDate(date: Date) {
+  formatNewDate(date: Date): string {
     return new Intl.DateTimeFormat("pt-BR").format(date);
   }
 
-  compareDates(endDate: string, startDate: string) {
+  compareDates(endDate: string, startDate: string): boolean {
     const invertDate = (date: string) => {
       const initialDate = date.split("/");
       const formatDate = `${initialDate[1]}/${initialDate[0]}/${initialDate[2]}`;
@@ -26,6 +26,6 @@ export class DateFormat {
       endDate: new Date(invertDate(endDate)).getTime(),
     };
 
-    return newDate.startDate <= newDate.endDate;
+    return newDate.startDate > newDate.endDate;
   }
 }
