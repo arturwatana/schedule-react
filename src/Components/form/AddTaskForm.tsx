@@ -4,10 +4,9 @@ import styles from "./AddTaskForm.module.css";
 import Button from "./Button/Button";
 import { useState } from "react";
 import { Task } from "../../entities/Task/Task.entity";
-import { AddTaskToDB } from "../../Task/useCases/AddTaskToDB.usecase";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import { DateFormat } from "../../utils/DateFormat/DateFormat";
-import { MessageProps } from "../../pages/Home/Home";
+import { MessageProps } from "../../pages/Home/MyTasks";
 
 interface AddTaskFormProps {
   setUpdateScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,6 +42,16 @@ function AddTaskForm({
   async function handleOnSubmit(e: any) {
     e.preventDefault();
     try {
+      const dateFormat = new DateFormat();
+      const newDate = dateFormat.formatNewDate(new Date());
+      if (dateFormat.compareDates(endDate, newDate)) {
+        setMessage({
+          text: "Ops, essa task está para o passado!",
+          type: "error",
+        });
+        setNotification(true);
+        return;
+      }
       const taskRepository = new TaskRepositoryFake();
       const taskCreated = Task.create({
         name,
