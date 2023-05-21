@@ -1,17 +1,29 @@
+import { Link } from "react-router-dom";
 import styles from "./NavBar.module.css";
-import logo2 from "../../../assets/logo2.png";
+import { FaReact } from "react-icons/fa";
 
 function NavBar() {
   return (
     <div className={styles.navBar}>
       <nav className={styles.navBar}>
-        <img src={logo2} />
+        <Link to="/" className={styles.logo}>
+          <FaReact className={styles.reactLogo} />
+          <h1>Schedule React</h1>
+        </Link>
 
         <ul>
-          <li>Home</li>
-          <li>My Tasks</li>
-          <li>About us</li>
-          <li>Login</li>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/mytasks">My Tasks</Link>
+          </li>
+          <li>
+            <Link to="/">About us</Link>
+          </li>
+          <li>
+            <Link to="/">Login</Link>
+          </li>
         </ul>
       </nav>
     </div>
