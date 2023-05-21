@@ -25,7 +25,7 @@ export class Task {
 
     this.id = nanoid();
     this.name = name;
-    this.urgency = urgency ? urgency : "Pouco Urgente";
+    this.urgency = urgency ? urgency : "Nao Urgente";
     this.startDate = dateFormat.formatNewDate(new Date());
     this.endDate = endDateFormated();
     this.completed = "Em Andamento";
