@@ -3,7 +3,7 @@ import Button from "../form/Button/Button";
 import styles from "./TaskCard.module.css";
 import { AiOutlineEdit } from "react-icons/ai";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
-import { MessageProps } from "../../pages/Home/Home";
+import { MessageProps } from "../../pages/Home/MyTasks";
 
 type TaskCardProps = {
   id: string;

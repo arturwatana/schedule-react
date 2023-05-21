@@ -7,7 +7,7 @@ import styles from "./Modal.module.css";
 import { useState } from "react";
 import _, { find } from "lodash";
 import ClickToEdit from "./ClickToEdit/ClickToEdit";
-import { MessageProps } from "../../../pages/Home/Home";
+import { MessageProps } from "../../../pages/Home/MyTasks";
 import TextArea from "../TextArea/TextArea";
 
 type ModalProps = {
