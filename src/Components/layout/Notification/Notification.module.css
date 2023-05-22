@@ -1,11 +1,11 @@
 .notification {
   height: 3em;
-  width: 100%;
+  width: 50%;
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: popUpNotification 3s linear infinite;
+  animation: popUpNotification 3s linear forwards;
   transition: 0.5s;
   border-radius: 1em;
   text-align: center;
@@ -15,7 +15,7 @@
 }
 
 .notificationContainer {
-  width: 15em;
+  width: 30em;
   height: 3em;
   position: fixed;
   left: 85%;
@@ -65,37 +65,111 @@
 
 @media (max-width: 1140px) {
   .notificationContainer {
+    left: 65%;
+  }
+  @keyframes popUpNotification {
+    0% {
+      opacity: 0.2;
+      left: 100%;
+    }
+
+    15% {
+      opacity: 0.6;
+      left: 50%;
+    }
+
+    30% {
+      opacity: 1;
+      left: 0%;
+    }
+
+    60% {
+      opacity: 1;
+      left: 0%;
+    }
+
+    85% {
+      opacity: 0.6;
+      left: 50%;
+    }
+
+    100% {
+      opacity: 0.2;
+      left: 100%;
+    }
+  }
+}
+
+@media (max-width: 1444px) {
+  .notificationContainer {
     left: 75%;
   }
   @keyframes popUpNotification {
     0% {
       opacity: 0.2;
-      left: 60%;
+      left: 100%;
     }
 
     15% {
       opacity: 0.6;
-      left: 10%;
+      left: 50%;
     }
 
     30% {
       opacity: 1;
-      left: -40%;
+      left: 0%;
     }
 
     60% {
       opacity: 1;
-      left: -40%;
+      left: 0%;
     }
 
     85% {
       opacity: 0.6;
-      left: 10%;
+      left: 50%;
     }
 
     100% {
       opacity: 0.2;
-      left: 60%;
+      left: 100%;
+    }
+  }
+}
+
+@media (max-width: 735px) {
+  .notificationContainer {
+    left: 45%;
+  }
+  @keyframes popUpNotification {
+    0% {
+      opacity: 0.2;
+      left: 100%;
+    }
+
+    15% {
+      opacity: 0.6;
+      left: 50%;
+    }
+
+    30% {
+      opacity: 1;
+      left: 10%;
+    }
+
+    60% {
+      opacity: 1;
+      left: 10%;
+    }
+
+    85% {
+      opacity: 0.6;
+      left: 50%;
+    }
+
+    100% {
+      opacity: 0.2;
+      left: 100%;
     }
   }
 }
