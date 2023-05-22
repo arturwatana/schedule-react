@@ -14,7 +14,7 @@ type ModalProps = {
   isOpen: boolean;
   handleEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   setUpdateScreen: React.Dispatch<React.SetStateAction<boolean>>;
-  taskProps: Task;
+  taskProps?: Task;
   setMessage: React.Dispatch<React.SetStateAction<MessageProps>>;
   setNotification: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -27,10 +27,12 @@ function Modal({
   setMessage,
   setNotification,
 }: ModalProps) {
-  const [endDate, setEndDate] = useState<string>(taskProps.endDate);
-  const [urgency, setUrgency] = useState<string>(taskProps.urgency);
-  const [name, setName] = useState<string>(taskProps.name);
-  const [description, setDescription] = useState<string>(taskProps.description);
+  const [endDate, setEndDate] = useState<string>(taskProps?.endDate || "");
+  const [urgency, setUrgency] = useState<string>(taskProps?.urgency || "");
+  const [name, setName] = useState<string>(taskProps?.name || "");
+  const [description, setDescription] = useState<string>(
+    taskProps?.description || ""
+  );
   const [openEditNameInput, setOpenEditNameInput] = useState<boolean>(false);
   const taskRepository = new TaskRepositoryFake();
   if (!isOpen) {
@@ -58,32 +60,49 @@ function Modal({
 
   async function editTaskInDB() {
     try {
-      const findTaskInDB = await taskRepository.findById(taskProps.id);
-      if (findTaskInDB) {
-        const updatedTask: Task = {
-          name,
-          urgency,
-          endDate,
-          id: findTaskInDB.id,
-          startDate: findTaskInDB.startDate,
-          completed: findTaskInDB.completed,
-          description: description,
-        };
+      if (taskProps?.id) {
+        const findTaskInDB = await taskRepository.findById(taskProps.id);
+        if (findTaskInDB) {
+          const updatedTask: Task = {
+            name,
+            urgency,
+            endDate,
+            id: findTaskInDB.id,
+            startDate: findTaskInDB.startDate,
+            completed: findTaskInDB.completed,
+            description,
+          };
 
-        const isEqual = _.isEqual(findTaskInDB, updatedTask);
-        if (isEqual) {
+          const isEqual = _.isEqual(findTaskInDB, updatedTask);
+          if (isEqual) {
+            handleEditModal(false);
+            return;
+          }
+          await taskRepository.updateTask(updatedTask);
+          setUpdateScreen(true);
           handleEditModal(false);
-          return;
+          setMessage({
+            text: "Task atualizada com sucesso!",
+            type: "success",
+          });
+          setNotification(true);
         }
-        await taskRepository.updateTask(updatedTask);
-        setUpdateScreen(true);
-        handleEditModal(false);
-        setMessage({
-          text: "Task atualizada com sucesso!",
-          type: "success",
-        });
-        setNotification(true);
       }
+
+      const task = Task.create({
+        name,
+        description,
+        endDate,
+        urgency,
+      });
+      await taskRepository.save(task);
+      setUpdateScreen(true);
+      handleEditModal(false);
+      setMessage({
+        text: "Task criada com sucesso!",
+        type: "success",
+      });
+      setNotification(true);
     } catch (err: any) {
       if (err.message === "Failed to fetch") {
         setMessage({
@@ -92,6 +111,11 @@ function Modal({
         });
         setNotification(true);
       }
+      setMessage({
+        text: err.message,
+        type: "error",
+      });
+      setNotification(true);
     }
   }
 
@@ -135,33 +159,33 @@ function Modal({
             />
           ) : (
             <p id="modalTittle" onClick={handleEditNameInput}>
-              {name}
+              {name || "New Task"}
             </p>
           )}
         </div>
         <div className={styles.modalBody} onClick={handleEditNameInput}>
           <div>
             <span>Iniciada em: </span>
-            {taskProps.startDate}
+            {taskProps?.startDate || ""}
           </div>
           <Input
             name="endDate"
             type="date"
             text="Data de termino:"
-            placeholder={taskProps.endDate}
+            placeholder={taskProps?.endDate || ""}
             onChange={handleOnChange}
           />
           <Input
             name="urgency"
             type="text"
             text="Urgencia:"
-            placeholder={taskProps.urgency}
+            placeholder={taskProps?.urgency || ""}
             onChange={handleOnChange}
           />
           <TextArea
             text="Descricão:"
             onChange={handleOnChange}
-            placeholder={taskProps.description}
+            placeholder={taskProps?.description || ""}
           />
         </div>
         <div className={styles.btn}>
