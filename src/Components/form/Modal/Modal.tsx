@@ -35,6 +35,7 @@ function Modal({
   );
   const [openEditNameInput, setOpenEditNameInput] = useState<boolean>(false);
   const taskRepository = new TaskRepositoryFake();
+  const dateFormat = new DateFormat();
   if (!isOpen) {
     return null;
   }
@@ -166,7 +167,7 @@ function Modal({
         <div className={styles.modalBody} onClick={handleEditNameInput}>
           <div>
             <span>Iniciada em: </span>
-            {taskProps?.startDate || ""}
+            {taskProps?.startDate || dateFormat.formatNewDate(new Date())}
           </div>
           <Input
             name="endDate"
