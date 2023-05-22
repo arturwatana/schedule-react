@@ -9,6 +9,7 @@ import Clock from "../../Components/layout/Clock/Clock";
 import Loading from "../../Components/layout/Loading/Loading";
 import Notification from "../../Components/layout/Notification/Notification";
 import { Task } from "../../entities/Task/Task.entity";
+import { TaskProps } from "../../entities/Task/interface/ITask";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import styles from "./MyTasks.module.css";
 import { useState, useEffect, useMemo } from "react";
@@ -63,6 +64,30 @@ function MyTasks() {
       }
     }
   };
+
+  function getUrgencyCategories() {
+    if (tasks) {
+      const tasksUrgency = tasks?.map((task) => {
+        return task.urgency;
+      });
+      const uniqueUrgencys = [...new Set(tasksUrgency)];
+      return uniqueUrgencys.map((categorie) => {
+        return (
+          <option value={categorie} key={categorie}>
+            {categorie}
+          </option>
+        );
+      });
+    }
+  }
+
+  function media() {
+    const mediaq = window.matchMedia("(max-width: 1360px)");
+  }
+
+  function createTaskModal() {
+    setModalOpen(true);
+  }
 
   function renderTasks() {
     if (!tasks) {
@@ -250,38 +275,35 @@ function MyTasks() {
       {notification ? handleNotification() : null}
       <section className={styles.today}>
         <div className={styles.header}>
-          <p className={styles.todayTittle}>Para hoje, temos:</p>
-          <div className={styles.headerFilter}>
-            <Input
-              text="Filtrar por nome:"
-              onChange={handleFilterTasks}
-              name="filterByName"
-              customClass="nameFilter"
-            />
-            <Select
-              handleOnChange={handleFilterTasks}
-              name="filterStatus"
-              text="Filtrar por status:"
-              customClass="selectFilter"
-            >
-              <option value="Mostrar Todas">Mostrar Todas</option>
-              <option value="Em Andamento">Em Andamento</option>
-              <option value="Concluida">Concluida</option>
-            </Select>
-            <Select
-              handleOnChange={handleFilterTasks}
-              name="filterUrgency"
-              text="Filtrar por urgencia:"
-              customClass="selectFilter"
-            >
-              <option value="Mostrar Todas">Mostrar Todas</option>
-              <option value="Nao Urgente">Nao Urgente</option>
-              <option value="Pouco Urgente">Pouco Urgente</option>
-              <option value="Muito Urgente">Muito Urgente</option>
-            </Select>
-            <Button text="Tasks de hoje" />
-          </div>
+          <Input
+            text="Filtrar por nome:"
+            onChange={handleFilterTasks}
+            name="filterByName"
+            customClass="nameFilter"
+          />
+          <Select
+            handleOnChange={handleFilterTasks}
+            name="filterStatus"
+            text="Filtrar por status:"
+            customClass="selectFilter"
+          >
+            <option value="Mostrar Todas">Mostrar Todas</option>
+            <option value="Em Andamento">Em Andamento</option>
+            <option value="Concluida">Concluida</option>
+          </Select>
+          <Select
+            handleOnChange={handleFilterTasks}
+            name="filterUrgency"
+            text="Filtrar por urgencia:"
+            customClass="selectFilter"
+          >
+            <option value="Mostrar Todas">Mostrar Todas</option>
+            {tasks ? getUrgencyCategories() : null}
+          </Select>
         </div>
+        <button className={styles.addTaskBtn} onClick={createTaskModal}>
+          Adicionar Task
+        </button>
 
         <div className={styles.listCards}>
           {tasks ? renderTasks() : <Loading />}

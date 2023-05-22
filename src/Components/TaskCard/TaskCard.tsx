@@ -94,7 +94,7 @@ function TaskCard({
         <p>
           <span>Status:</span> {completed}
         </p>
-        <div className={styles.btn}>
+        <div className={styles.buttons}>
           <Button text="Concluir" onClick={handleCompleteTask}></Button>
           <Button text="Editar" onClick={OpenModal}>
             <AiOutlineEdit />

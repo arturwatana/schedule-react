@@ -22,7 +22,7 @@
   text-decoration: none;
 }
 
-.navBar nav > ul {
+.navBarItens > ul {
   height: 100%;
   align-items: flex-end;
   padding-bottom: 1em;
@@ -30,7 +30,7 @@
   list-style: none;
 }
 
-.navBar nav > ul > li {
+.navBarItens ul > li {
   margin-right: 2em;
   font-size: 22px;
 }
@@ -48,4 +48,57 @@
 
 .reactLogo {
   font-size: 50px;
+}
+
+.burguer {
+  display: none;
+  font-size: 40px;
+}
+
+.burguer {
+  rotate: calc(360deg);
+}
+.burguerItens {
+  display: none;
+}
+
+@media (max-width: 1140px) {
+  .navBarItens {
+    display: none;
+  }
+  .logo h1 {
+    font-size: 20px;
+  }
+
+  .burguer {
+    display: block;
+  }
+  .burguerItens {
+    display: block;
+    background-color: #2e424d;
+    list-style: none;
+    font-size: 25px;
+    width: 20%;
+    position: absolute;
+    top: 9%;
+    left: 75%;
+  }
+
+  .burguerItens li {
+    text-align: center;
+    margin-top: 0.5em;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.5em;
+  }
+
+  @keyframes burguerClick {
+    0% {
+      height: 0%;
+      opacity: 0;
+    }
+
+    100% {
+      height: 20%;
+    }
+  }
 }

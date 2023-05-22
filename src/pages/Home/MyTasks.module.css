@@ -1,30 +1,18 @@
-.home {
+.MyTasks {
   display: flex;
-  width: 90%;
-  justify-content: center;
-  align-items: center;
   overflow-x: hidden;
-}
-
-.todayTittle {
-  width: 30em;
-  height: 3em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #2e424d;
-  border-radius: 2em;
 }
 
 .today {
   border: 2px solid #25696d;
+  width: 80em;
   border-radius: 2em;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin-right: 3em;
   padding: 2em 5em;
-  margin: 0 5em 0 10em;
 }
 
 .listCards {
@@ -53,11 +41,61 @@
 
 .header {
   display: flex;
-}
-
-.headerFilter {
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  padding-left: 8em;
   align-items: center;
   width: 100%;
+}
+
+.addTaskBtn {
+  background-color: antiquewhite;
+  width: 30%;
+  border: 1px solid #222;
+  color: #222;
+  font-size: 22px;
+  display: none;
+  border-radius: 2em;
+  margin-top: 1em;
+}
+
+@media (max-width: 1850px) {
+  .menu {
+    width: 20%;
+  }
+}
+
+@media (max-width: 1444px) {
+  .today {
+    padding: 1em 2.5em;
+    font-size: 20px;
+  }
+
+  .header {
+    width: 80%;
+  }
+
+  .headerFilter {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .menu {
+    display: none;
+  }
+  .addTaskBtn {
+    display: block;
+  }
+}
+
+@media (max-width: 1140px) {
+  .header {
+    flex-direction: column;
+    padding: 0;
+    font-size: 22px;
+  }
+
+  .today {
+    padding-bottom: 2em;
+    margin-left: 2.2em;
+  }
 }

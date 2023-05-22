@@ -8,22 +8,22 @@
   text-decoration: none;
 }
 
-main {
+.main {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
 }
 .helpfulMessages {
-  margin-right: 2em;
   display: flex;
   flex-direction: column;
   gap: 5em;
   padding-top: 2em;
-  width: 100%;
+  width: 70%;
+  margin-right: 2em;
 }
 
 .messageOfDay {
-  margin-top: 1em;
   border: 1px solid #222;
   border-radius: 2em;
   display: flex;
@@ -43,8 +43,20 @@ main {
   text-align: center;
 }
 
-.main {
-  display: flex;
-  justify-content: space-between;
-  width: 45%;
+@media (max-width: 1310px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .helpfulMessages {
+    height: 100%;
+    min-width: 100%;
+    margin-bottom: 2em;
+    margin-right: 0;
+    padding: 1em;
+  }
+
+  .messageOfDay {
+    margin-top: 0;
+  }
 }

@@ -1,7 +1,10 @@
 .container {
   background-color: #5b8291;
-  padding-top: 5em;
+  padding-top: 3em;
   padding-bottom: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .minHeight {

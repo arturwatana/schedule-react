@@ -3,7 +3,7 @@
   border-radius: 1em;
   margin: 1em;
   width: 20em;
-  height: 13em;
+  height: 15em;
   box-shadow: 10px 5px 10px #222;
 }
 
@@ -27,4 +27,12 @@
 }
 .taskCard div > p {
   color: #222;
+}
+.buttons {
+  width: 100%;
+  display: flex;
+  padding-right: 3em;
+}
+
+@media (max-width: 1140px) {
 }

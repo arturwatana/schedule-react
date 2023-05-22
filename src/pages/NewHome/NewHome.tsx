@@ -21,7 +21,7 @@ function NewHome() {
   const messages = [
     "Transforme seus erros em sementes.",
     "Ao acordar pela manhã, pense no precioso privilégio de estar vivo, respirando, pensando, desfrutando e amando.",
-    "Há uma força motriz mais poderosa que o vapor, a eletricidade e a energia atômica: a vontade.",
+    "Há uma força matriz mais poderosa que o vapor, a eletricidade e a energia atômica: a vontade.",
     "É uma força que não tem muito como explicar, capaz de mover montanhas.",
     "É a esperança que não vacila diante das dificuldades e a confiança de que tudo fica bem quando se tem Deus no coração.",
     "O ponto de partida de qualquer realização é o desejo.",
@@ -32,6 +32,7 @@ function NewHome() {
       const db = new TaskRepositoryFake();
       const tasks = await db.showAll();
       setTasks(tasks);
+
       return tasks;
     } catch (err: any) {
       console.log(err.message);
@@ -71,46 +72,44 @@ function NewHome() {
   }, []);
 
   return (
-    <main>
-      <div className={styles.main}>
-        <section className={styles.helpfulMessages}>
-          <Clock />
-          <div>
-            <div className={styles.messageOfDay}>
-              <h3>Mensagem do dia:</h3>
-              <p>{handleMessageOfDay()}</p>
-            </div>
+    <main className={styles.main}>
+      <section className={styles.helpfulMessages}>
+        <Clock />
+        <div>
+          <div className={styles.messageOfDay}>
+            <h3>Mensagem do dia:</h3>
+            <p>{handleMessageOfDay()}</p>
           </div>
-        </section>
-        <section className={styles.cardGroup}>
-          <Link to="/mytasks" state={{ from: { status: "" } }}>
-            <BlockCard
-              tittle="Para hoje:"
-              description="Tasks"
-              value={getTasksByDate(new Date()).length}
-              customClass="blue"
-            />
-          </Link>
+        </div>
+      </section>
+      <section className={styles.cardGroup}>
+        <Link to="/mytasks" state={{ from: { status: "" } }}>
           <BlockCard
-            tittle="Tasks vencidas:"
+            tittle="Para hoje:"
             description="Tasks"
-            value={expiredTasks().length}
-            customClass="lightBlue"
-          />
-          <BlockCard
-            tittle="Já concluidas:"
-            description="Tasks"
-            value={getCompletedTasks().length}
-            customClass="lightBlue"
-          />
-          <BlockCard
-            tittle="Total:"
-            description="Tasks"
-            value={tasks.length}
+            value={getTasksByDate(new Date()).length}
             customClass="blue"
           />
-        </section>
-      </div>
+        </Link>
+        <BlockCard
+          tittle="Tasks vencidas:"
+          description="Tasks"
+          value={expiredTasks().length}
+          customClass="lightBlue"
+        />
+        <BlockCard
+          tittle="Já concluidas:"
+          description="Tasks"
+          value={getCompletedTasks().length}
+          customClass="lightBlue"
+        />
+        <BlockCard
+          tittle="Total:"
+          description="Tasks"
+          value={tasks.length}
+          customClass="blue"
+        />
+      </section>
     </main>
   );
 }

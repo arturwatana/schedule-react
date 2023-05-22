@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: popUpNotification 3s linear forwards;
+  animation: popUpNotification 3s linear infinite;
   transition: 0.5s;
   border-radius: 1em;
   text-align: center;
@@ -61,4 +61,41 @@
 
 .success {
   background-color: rgb(142, 200, 142);
+}
+
+@media (max-width: 1140px) {
+  .notificationContainer {
+    left: 75%;
+  }
+  @keyframes popUpNotification {
+    0% {
+      opacity: 0.2;
+      left: 60%;
+    }
+
+    15% {
+      opacity: 0.6;
+      left: 10%;
+    }
+
+    30% {
+      opacity: 1;
+      left: -40%;
+    }
+
+    60% {
+      opacity: 1;
+      left: -40%;
+    }
+
+    85% {
+      opacity: 0.6;
+      left: 10%;
+    }
+
+    100% {
+      opacity: 0.2;
+      left: 60%;
+    }
+  }
 }

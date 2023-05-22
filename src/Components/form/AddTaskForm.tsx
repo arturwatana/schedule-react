@@ -87,6 +87,7 @@ function AddTaskForm({
           text="Nome:"
           type="text"
           onChange={handleOnChange}
+          customClass="formInput"
         />
         <Select
           handleOnChange={handleOnChange}
@@ -103,6 +104,7 @@ function AddTaskForm({
           text="Termino:"
           type="date"
           onChange={handleOnChange}
+          customClass="formInput"
         />
         <Button text="Salvar Task" />
       </form>

@@ -1,9 +1,12 @@
 .btn {
   background-color: #606060;
+  margin-top: 0.5em;
   color: #cacaca;
   border-radius: 2em;
-  width: 50%;
+  width: 40%;
   cursor: pointer;
+
+  margin-left: 2em;
 }
 
 .modalBtn {
@@ -16,4 +19,10 @@
 
 .modalBtn:hover {
   opacity: 1;
+}
+
+@media (max-width: 1140px) {
+  .btn {
+    height: 3em;
+  }
 }

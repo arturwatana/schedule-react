@@ -6,13 +6,13 @@
 }
 
 .addTaskForm p {
-  width: 30em;
   height: 3em;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #2e424d;
   border-radius: 2em;
+  width: 100%;
 }
 
 .addTaskForm form {
@@ -22,7 +22,7 @@
   flex-direction: column;
   background-color: #eaebed;
   align-items: center;
-  width: 100%;
   border-radius: 2em;
   padding: 1em 0;
+  width: 100%;
 }
