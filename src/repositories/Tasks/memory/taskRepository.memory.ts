@@ -1,4 +1,3 @@
-import { TaskProps } from "../../../entities/Task/interface/ITask";
 import { Task } from "../../../entities/Task/Task.entity";
 import { ITaskRepository } from "../interface/ITaskRepository";
 
@@ -13,6 +12,9 @@ export class TaskRepository implements ITaskRepository {
       TaskRepository.TASKS_STORAGE_KEY
     );
     this.tasks = tasksInStorage ? JSON.parse(tasksInStorage) : [];
+  }
+  updateTask(): Promise<Task | null> {
+    throw new Error("Method not implemented.");
   }
 
   static getInstance(): TaskRepository {

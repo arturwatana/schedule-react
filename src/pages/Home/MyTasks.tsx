@@ -1,7 +1,5 @@
 import TaskCard from "../../Components/TaskCard/TaskCard";
-import TimeCounter from "../../Components/TimeCounter/TimeCounter";
 import AddTaskForm from "../../Components/form/AddTaskForm";
-import Button from "../../Components/form/Button/Button";
 import Input from "../../Components/form/Input/Input";
 import Modal from "../../Components/form/Modal/Modal";
 import Select from "../../Components/form/Select/Select";
@@ -9,10 +7,9 @@ import Clock from "../../Components/layout/Clock/Clock";
 import Loading from "../../Components/layout/Loading/Loading";
 import Notification from "../../Components/layout/Notification/Notification";
 import { Task } from "../../entities/Task/Task.entity";
-import { TaskProps } from "../../entities/Task/interface/ITask";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import styles from "./MyTasks.module.css";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 type StateFilterProps = {
   status: string;
@@ -79,10 +76,6 @@ function MyTasks() {
         );
       });
     }
-  }
-
-  function media() {
-    const mediaq = window.matchMedia("(max-width: 1360px)");
   }
 
   function createTaskModal() {

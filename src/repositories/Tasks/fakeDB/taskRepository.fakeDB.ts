@@ -4,7 +4,7 @@ import { ITaskRepository } from "../interface/ITaskRepository";
 export class TaskRepositoryFake implements ITaskRepository {
   async save(task: Task): Promise<Task> {
     try {
-      const res = await fetch("http://localhost:5000/tasks", {
+      await fetch("http://localhost:5000/tasks", {
         method: "POST",
         headers: {
           "content-type": "application/json",
