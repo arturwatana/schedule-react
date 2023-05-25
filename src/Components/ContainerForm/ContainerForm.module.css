@@ -1,0 +1,10 @@
+.containerForm {
+  border: 1px solid #222;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #eaebed;
+  border-radius: 2em;
+}

@@ -30,6 +30,13 @@
   margin-left: 1em;
 }
 
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 0.3em;
+}
+
 @media (max-width: 1140px) {
   .input {
     margin-top: 1em;

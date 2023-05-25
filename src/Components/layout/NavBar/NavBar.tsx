@@ -29,6 +29,12 @@ function NavBar() {
               <li>
                 <Link to="/mytasks">My Tasks</Link>
               </li>
+              <li>
+                <Link to="/">About us</Link>
+              </li>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
             </ul>
           ) : null}
         </div>
@@ -39,6 +45,12 @@ function NavBar() {
             </li>
             <li>
               <Link to="/mytasks">My Tasks</Link>
+            </li>
+            <li>
+              <Link to="/">About us</Link>
+            </li>
+            <li>
+              <Link to="/login">Login</Link>
             </li>
           </ul>
         </div>
