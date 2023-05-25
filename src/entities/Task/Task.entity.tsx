@@ -5,12 +5,19 @@ export class Task {
   id: string;
   name: string;
   urgency: string;
+  userEmail: string;
   startDate: string;
   endDate: string;
   description: string;
   completed: string;
 
-  private constructor({ name, urgency, endDate, description }: TaskProps) {
+  private constructor({
+    name,
+    urgency,
+    endDate,
+    description,
+    userEmail,
+  }: TaskProps) {
     if (!name) {
       throw new Error("Ops, toda task precisa de um nome.");
     }
@@ -23,13 +30,14 @@ export class Task {
       return dateFormat.formatNewDate(new Date());
     };
 
-    this.id = nanoid();
+    this.id = "";
     this.name = name;
     this.urgency = urgency ? urgency : "Nao Urgente";
     this.startDate = dateFormat.formatNewDate(new Date());
     this.endDate = endDateFormated();
     this.completed = "Em Andamento";
     this.description = description;
+    this.userEmail = userEmail;
   }
 
   static create(props: TaskProps) {

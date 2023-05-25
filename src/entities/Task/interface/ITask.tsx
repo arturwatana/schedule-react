@@ -3,4 +3,5 @@ export type TaskProps = {
   urgency: string;
   description: string;
   endDate: string;
+  userEmail: string;
 };

@@ -32,6 +32,7 @@ function MyTasks() {
     endDate: "",
     description: "",
     completed: "Em Andamento",
+    userEmail: "",
   });
   const [updateScreen, setUpdateScreen] = useState<boolean>(false);
   const [stateFilter, setStateFilter] = useState<StateFilterProps>({
