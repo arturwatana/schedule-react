@@ -5,8 +5,11 @@
   border-radius: 2em;
   width: 40%;
   cursor: pointer;
-
   margin-left: 2em;
+  opacity: 0.8;
+}
+.btn:hover {
+  opacity: 1;
 }
 
 .modalBtn {

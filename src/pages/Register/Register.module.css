@@ -1,7 +1,10 @@
 .btn {
   display: flex;
-  margin: 1em;
   width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2em;
+  margin-bottom: 1em;
 }
 
 .title {
