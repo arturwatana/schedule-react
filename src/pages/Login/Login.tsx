@@ -6,15 +6,11 @@ import styles from "./Login.module.css";
 import { useState } from "react";
 import Notification from "../../Components/layout/Notification/Notification";
 import { MessageProps } from "../Home/MyTasks";
+import { SetPopUpProps } from "../../App";
 
-function Login() {
+function Login({ setMessage, setNotification }: SetPopUpProps) {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [message, setMessage] = useState<MessageProps>({
-    text: "",
-    type: "success",
-  });
-  const [notification, setNotification] = useState<boolean>(false);
 
   function handleLogin(e: any) {
     switch (e.target.name) {
@@ -67,9 +63,6 @@ function Login() {
 
   return (
     <ContainerForm>
-      {notification ? (
-        <Notification message={message.text} customClass={message.type} />
-      ) : null}
       <h1 className={styles.title}>Login</h1>
       <Input
         text="Email:"
@@ -80,6 +73,7 @@ function Login() {
       <Input
         text="Password:"
         name="password"
+        type="password"
         onChange={handleLogin}
         customClass="loginForm"
       />

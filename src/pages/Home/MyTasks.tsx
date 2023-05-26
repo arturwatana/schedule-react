@@ -1,3 +1,4 @@
+import { SetPopUpProps } from "../../App";
 import TaskCard from "../../Components/TaskCard/TaskCard";
 import AddTaskForm from "../../Components/form/AddTaskForm";
 import Input from "../../Components/form/Input/Input";
@@ -7,6 +8,7 @@ import Clock from "../../Components/layout/Clock/Clock";
 import Loading from "../../Components/layout/Loading/Loading";
 import Notification from "../../Components/layout/Notification/Notification";
 import { Task } from "../../entities/Task/Task.entity";
+import { TaskAPIRepository } from "../../repositories/Tasks/API/taskRepository.api";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import styles from "./MyTasks.module.css";
 import { useState, useEffect } from "react";
@@ -21,7 +23,7 @@ export type MessageProps = {
   type: "success" | "error";
 };
 
-function MyTasks() {
+function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
   const [tasks, setTasks] = useState<Task[]>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<Task>({
@@ -40,31 +42,47 @@ function MyTasks() {
     urgency: "Mostrar Todas",
   });
   const [nameFilter, setNameFilter] = useState<string>();
-  const [message, setMessage] = useState<MessageProps>({
-    text: "Seja Bem Vindo",
-    type: "success",
-  });
-  const [notification, setNotification] = useState<boolean>(false);
 
   const taskRepository = async () => {
     try {
-      const taskRepository = new TaskRepositoryFake();
-      const db = await taskRepository.showAll();
+      const taskRepository = new TaskAPIRepository();
+      const userEmail = localStorage.getItem("userEmail");
+      const token = localStorage.getItem("token");
+      const db = await taskRepository.showAllByUserEmail(
+        userEmail || "",
+        token || ""
+      );
       setTasks(db);
+      setMessage({
+        text: "Seja Bem Vindo",
+        type: "success",
+      });
       setNotification(true);
     } catch (err: any) {
-      if (err.message === "Error: TypeError: Failed to fetch") {
+      if (err.message === "Ops, voce precisa fazer o login") {
+        setMessage({
+          text: err.message,
+          type: "error",
+        });
+        setNotification(true);
+      }
+      if (err.message === "Failed to fetch") {
         setMessage({
           text: "Ops, nao foi possivel carregar suas tasks agora",
           type: "error",
         });
         setNotification(true);
       }
+      setMessage({
+        text: err.message,
+        type: "error",
+      });
+      setNotification(true);
     }
   };
 
   function getUrgencyCategories() {
-    if (tasks) {
+    if (Array.isArray(tasks)) {
       const tasksUrgency = tasks?.map((task) => {
         return task.urgency;
       });
@@ -91,14 +109,14 @@ function MyTasks() {
         </>
       );
     }
-    if (tasks.length === 0) {
-      return (
-        <>
-          <p className={styles.zeroTasks}>Oba, nao há tasks para hoje</p>
-        </>
-      );
-    }
-    if (tasks) {
+    if (Array.isArray(tasks)) {
+      if (tasks.length === 0) {
+        return (
+          <>
+            <p className={styles.zeroTasks}>Oba, nao há tasks para hoje</p>
+          </>
+        );
+      }
       let filteredTasks = tasks;
       if (nameFilter) {
         filteredTasks = tasks.filter((task) => {
@@ -228,20 +246,20 @@ function MyTasks() {
     }
   }
 
-  function handleNotification() {
-    return <Notification message={message.text} customClass={message.type} />;
-  }
+  // function handleNotification() {
+  //   return <Notification message={message.text} customClass={message.type} />;
+  // }
 
-  useEffect(() => {
-    if (notification) {
-      handleNotification();
-      setTimeout(() => {
-        setNotification(false);
-      }, 3000);
-    }
+  // useEffect(() => {
+  //   if (notification) {
+  //     handleNotification();
+  //     setTimeout(() => {
+  //       setNotification(false);
+  //     }, 3000);
+  //   }
 
-    //todo cleanup function
-  }, [notification]);
+  //todo cleanup function
+  // }, [notification]);
 
   useEffect(() => {
     if (updateScreen) {
@@ -266,7 +284,6 @@ function MyTasks() {
           setMessage={setMessage}
         />
       ) : null}
-      {notification ? handleNotification() : null}
       <section className={styles.today}>
         <div className={styles.header}>
           <Input
