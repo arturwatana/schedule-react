@@ -7,6 +7,7 @@ import { Task } from "../../entities/Task/Task.entity";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import { DateFormat } from "../../utils/DateFormat/DateFormat";
 import { MessageProps } from "../../pages/Home/MyTasks";
+import { TaskAPIRepository } from "../../repositories/Tasks/API/taskRepository.api";
 
 interface AddTaskFormProps {
   setUpdateScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,14 +53,26 @@ function AddTaskForm({
         setNotification(true);
         return;
       }
-      const taskRepository = new TaskRepositoryFake();
+      const taskRepository = new TaskAPIRepository();
+      const userEmail = localStorage.getItem("userEmail");
+      const token = localStorage.getItem("token");
+      if (!userEmail || !token) {
+        setMessage({
+          text: "Ops, parece que voce ainda não fez o login",
+          type: "error",
+        });
+        setNotification(true);
+        return;
+      }
+
       const taskCreated = Task.create({
         name,
         endDate,
         urgency,
         description: "",
+        userEmail,
       });
-      await taskRepository.save(taskCreated);
+      await taskRepository.save(taskCreated, token);
       setUpdateScreen(true);
       setMessage({
         text: "Task Criada com sucesso!",
@@ -67,7 +80,7 @@ function AddTaskForm({
       });
       setNotification(true);
     } catch (err: any) {
-      if (err.message === "Error: TypeError: Failed to fetch") {
+      if (err.message === "Failed to fetch") {
         setMessage({
           text: "Ops, nao foi possivel carregar suas tasks agora",
           type: "error",
