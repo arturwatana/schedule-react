@@ -2,10 +2,31 @@ import { Link } from "react-router-dom";
 import styles from "./NavBar.module.css";
 import { FaReact } from "react-icons/fa";
 import { CiMenuBurger } from "react-icons/ci";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function NavBar() {
   const [burguerIsOpen, setBurguerIsOpen] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  function handleIsLoggedIn() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+      return;
+    }
+    setIsLoggedIn(false);
+    return;
+  }
+
+  function logoutUser(e: any) {
+    if (e.target.value === "Logout") {
+      localStorage.removeItem("token");
+    }
+  }
+
+  useEffect(() => {
+    handleIsLoggedIn();
+  });
 
   function handleBurguer() {
     setBurguerIsOpen(!burguerIsOpen);
@@ -32,8 +53,8 @@ function NavBar() {
               <li>
                 <Link to="/">About us</Link>
               </li>
-              <li>
-                <Link to="/login">Login</Link>
+              <li onClick={logoutUser}>
+                <Link to="/login">{!isLoggedIn ? "Login" : "Logout"}</Link>
               </li>
             </ul>
           ) : null}
@@ -50,7 +71,7 @@ function NavBar() {
               <Link to="/">About us</Link>
             </li>
             <li>
-              <Link to="/login">Login</Link>
+              <Link to="/login">{!isLoggedIn ? "Login" : "Logout"}</Link>
             </li>
           </ul>
         </div>
