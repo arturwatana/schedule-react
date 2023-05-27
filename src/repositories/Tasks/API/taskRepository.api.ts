@@ -21,7 +21,7 @@ export class TaskAPIRepository implements ITaskRepository {
   async showAllByUserEmail(userEmail: string, token: string): Promise<Task[]> {
     try {
       if (!userEmail || !token) {
-        throw new Error("Ops, voce precisa fazre o login");
+        throw new Error("Ops, voce precisa fazer o login");
       }
       const res = await fetch(`http://localhost:8080/tasks/${userEmail}`, {
         method: "GET",

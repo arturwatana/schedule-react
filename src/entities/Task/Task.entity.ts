@@ -5,7 +5,7 @@ export class Task {
   id: string;
   name: string;
   urgency: string;
-  userEmail: string;
+  userEmail?: string;
   startDate: string;
   endDate: string;
   description: string;
