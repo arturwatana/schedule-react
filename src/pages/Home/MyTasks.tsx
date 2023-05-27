@@ -1,3 +1,4 @@
+import { render } from "react-dom";
 import { SetPopUpProps } from "../../App";
 import TaskCard from "../../Components/TaskCard/TaskCard";
 import AddTaskForm from "../../Components/form/AddTaskForm";
@@ -6,10 +7,8 @@ import Modal from "../../Components/form/Modal/Modal";
 import Select from "../../Components/form/Select/Select";
 import Clock from "../../Components/layout/Clock/Clock";
 import Loading from "../../Components/layout/Loading/Loading";
-import Notification from "../../Components/layout/Notification/Notification";
 import { Task } from "../../entities/Task/Task.entity";
 import { TaskAPIRepository } from "../../repositories/Tasks/API/taskRepository.api";
-import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import styles from "./MyTasks.module.css";
 import { useState, useEffect } from "react";
 
@@ -42,6 +41,7 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
     urgency: "Mostrar Todas",
   });
   const [nameFilter, setNameFilter] = useState<string>();
+  const [mobileTaskList, setMobileTaskList] = useState<boolean>(false);
 
   const taskRepository = async () => {
     try {
@@ -133,6 +133,7 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
           .map((task) => {
             return (
               <TaskCard
+                mobileTaskList={mobileTaskList}
                 description={task.description}
                 setMessage={setMessage}
                 setNotification={setNotification}
@@ -171,6 +172,7 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
           .map((task) => {
             return (
               <TaskCard
+                mobileTaskList={mobileTaskList}
                 description={task.description}
                 setMessage={setMessage}
                 setNotification={setNotification}
@@ -209,6 +211,7 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
           .map((task) => {
             return (
               <TaskCard
+                mobileTaskList={mobileTaskList}
                 description={task.description}
                 setMessage={setMessage}
                 setNotification={setNotification}
@@ -246,20 +249,13 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
     }
   }
 
-  // function handleNotification() {
-  //   return <Notification message={message.text} customClass={message.type} />;
-  // }
-
-  // useEffect(() => {
-  //   if (notification) {
-  //     handleNotification();
-  //     setTimeout(() => {
-  //       setNotification(false);
-  //     }, 3000);
-  //   }
-
-  //todo cleanup function
-  // }, [notification]);
+  function handleTaskView() {
+    const screen = window.matchMedia("(max-width: 600px)");
+    if (screen.matches) {
+      setMobileTaskList(true);
+      return;
+    }
+  }
 
   useEffect(() => {
     if (updateScreen) {
@@ -270,6 +266,7 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
 
   useEffect(() => {
     taskRepository();
+    handleTaskView();
   }, []);
 
   return (
@@ -292,25 +289,27 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
             name="filterByName"
             customClass="nameFilter"
           />
-          <Select
-            handleOnChange={handleFilterTasks}
-            name="filterStatus"
-            text="Filtrar por status:"
-            customClass="selectFilter"
-          >
-            <option value="Mostrar Todas">Mostrar Todas</option>
-            <option value="Em Andamento">Em Andamento</option>
-            <option value="Concluida">Concluida</option>
-          </Select>
-          <Select
-            handleOnChange={handleFilterTasks}
-            name="filterUrgency"
-            text="Filtrar por urgencia:"
-            customClass="selectFilter"
-          >
-            <option value="Mostrar Todas">Mostrar Todas</option>
-            {tasks ? getUrgencyCategories() : null}
-          </Select>
+          <div className={styles.filterSelect}>
+            <Select
+              handleOnChange={handleFilterTasks}
+              name="filterStatus"
+              text="Filtrar por status:"
+              customClass="selectFilter"
+            >
+              <option value="Mostrar Todas">Mostrar Todas</option>
+              <option value="Em Andamento">Em Andamento</option>
+              <option value="Concluida">Concluida</option>
+            </Select>
+            <Select
+              handleOnChange={handleFilterTasks}
+              name="filterUrgency"
+              text="Filtrar por urgencia:"
+              customClass="selectFilter"
+            >
+              <option value="Mostrar Todas">Mostrar Todas</option>
+              {tasks ? getUrgencyCategories() : null}
+            </Select>
+          </div>
         </div>
         <button className={styles.addTaskBtn} onClick={createTaskModal}>
           Adicionar Task

@@ -34,5 +34,37 @@
   padding-right: 3em;
 }
 
+.mobileTaskCard {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 20em;
+  height: 8em;
+  border-radius: 1em;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+}
+
 @media (max-width: 1140px) {
+}
+
+@media (max-width: 600px) {
+  .buttons {
+    display: none;
+  }
+  .taskCardTittle {
+    width: 10em;
+    height: 100%;
+    word-wrap: break-word;
+  }
+  .mobileTaskCard > div {
+    width: 10em;
+  }
+
+  .mobileTaskCard > div > p {
+    margin-top: 0.5em;
+    font-size: 11px;
+  }
 }

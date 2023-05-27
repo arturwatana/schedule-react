@@ -11,3 +11,10 @@
 .textArea p {
   color: #222;
 }
+
+@media (max-width: 543px) {
+  .textArea textarea {
+    width: 300px;
+    max-height: 10em;
+  }
+}

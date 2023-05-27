@@ -173,3 +173,40 @@
     }
   }
 }
+
+@media (max-width: 548px) {
+  .notificationContainer {
+    left: 25%;
+  }
+  @keyframes popUpNotification {
+    0% {
+      opacity: 0.2;
+      left: 100%;
+    }
+
+    15% {
+      opacity: 0.6;
+      left: 50%;
+    }
+
+    30% {
+      opacity: 1;
+      left: 10%;
+    }
+
+    60% {
+      opacity: 1;
+      left: 10%;
+    }
+
+    85% {
+      opacity: 0.6;
+      left: 50%;
+    }
+
+    100% {
+      opacity: 0.2;
+      left: 100%;
+    }
+  }
+}

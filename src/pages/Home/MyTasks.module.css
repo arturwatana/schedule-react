@@ -57,6 +57,12 @@
   border-radius: 2em;
   margin-top: 1em;
 }
+.filterSelect {
+  display: flex;
+  flex-direction: row;
+  width: 40%;
+  align-items: center;
+}
 
 @media (max-width: 1850px) {
   .menu {
@@ -97,5 +103,40 @@
   .today {
     padding-bottom: 2em;
     margin-left: 2.2em;
+  }
+  .filterSelect {
+    width: 100%;
+  }
+}
+
+@media (max-width: 690px) {
+  .filterSelect {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .today {
+    width: 20em;
+  }
+  .addTaskBtn {
+    width: 70%;
+    height: 3em;
+  }
+
+  .today {
+    padding: 0;
+  }
+  .header {
+    padding: 2em 2em 0 2em;
+  }
+
+  .filterSelect {
+    width: 10em;
+    padding: 0;
+  }
+
+  .filterSelect :first-child {
+    margin-bottom: 0.4em;
   }
 }

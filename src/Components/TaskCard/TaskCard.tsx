@@ -4,6 +4,7 @@ import styles from "./TaskCard.module.css";
 import { AiOutlineEdit } from "react-icons/ai";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import { MessageProps } from "../../pages/Home/MyTasks";
+import { useEffect, useState } from "react";
 
 type TaskCardProps = {
   id: string;
@@ -19,6 +20,7 @@ type TaskCardProps = {
   editTask?: React.Dispatch<React.SetStateAction<Task>>;
   setNotification: React.Dispatch<React.SetStateAction<boolean>>;
   setMessage: React.Dispatch<React.SetStateAction<MessageProps>>;
+  mobileTaskList: boolean;
 };
 
 function TaskCard({
@@ -35,21 +37,27 @@ function TaskCard({
   editTask,
   setNotification,
   setMessage,
+  mobileTaskList,
 }: TaskCardProps) {
   const db = new TaskRepositoryFake();
+
+  const [userEmail, setUserEmail] = useState<string>();
 
   function OpenModal() {
     if (handleEditModal && isOpen === false) {
       if (editTask) {
-        editTask({
-          id,
-          name,
-          urgency,
-          startDate,
-          endDate,
-          description,
-          completed,
-        });
+        if (userEmail) {
+          editTask({
+            id,
+            name,
+            urgency,
+            startDate,
+            endDate,
+            description,
+            completed,
+            userEmail,
+          });
+        }
       }
       handleEditModal(true);
     }
@@ -78,8 +86,23 @@ function TaskCard({
       }
     }
   }
+
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail");
+    if (email) {
+      setUserEmail(email);
+    }
+  }, []);
+
   return (
-    <div className={styles.taskCard}>
+    <div
+      className={`${mobileTaskList ? styles.mobileTaskCard : styles.taskCard}`}
+      onClick={() => {
+        if (mobileTaskList) {
+          OpenModal();
+        }
+      }}
+    >
       <p className={styles.taskCardTittle}>{name}</p>
       <div>
         <p>
