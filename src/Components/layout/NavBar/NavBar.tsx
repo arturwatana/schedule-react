@@ -12,15 +12,16 @@ function NavBar() {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
-      return;
+      return true;
     }
-    setIsLoggedIn(false);
-    return;
+    return false;
   }
 
   function logoutUser(e: any) {
-    if (e.target.value === "Logout") {
+    if (e.target.innerText === "Logout") {
       localStorage.removeItem("token");
+      localStorage.removeItem("userEmail");
+      setIsLoggedIn(false);
     }
   }
 
@@ -51,7 +52,7 @@ function NavBar() {
                 <Link to="/mytasks">My Tasks</Link>
               </li>
               <li>
-                <Link to="/">About us</Link>
+                <Link to="/aboutus">About us</Link>
               </li>
               <li onClick={logoutUser}>
                 <Link to="/login">{!isLoggedIn ? "Login" : "Logout"}</Link>
@@ -68,9 +69,9 @@ function NavBar() {
               <Link to="/mytasks">My Tasks</Link>
             </li>
             <li>
-              <Link to="/">About us</Link>
+              <Link to="/aboutus">About us</Link>
             </li>
-            <li>
+            <li onClick={logoutUser}>
               <Link to="/login">{!isLoggedIn ? "Login" : "Logout"}</Link>
             </li>
           </ul>
