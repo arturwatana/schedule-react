@@ -10,6 +10,7 @@ import Register from "./pages/Register/Register";
 import { useEffect, useState } from "react";
 import { User } from "./entities/User/User.entity";
 import Notification from "./Components/layout/Notification/Notification";
+import AboutUs from "./pages/Home/AboutUs/AboutUs";
 
 export type SetPopUpProps = {
   setMessage: React.Dispatch<React.SetStateAction<MessageProps>>;
@@ -52,6 +53,7 @@ function App() {
             }
           />
           <Route path="/register" element={<Register />} />
+          <Route path="/aboutus" element={<AboutUs />} />
         </Routes>
       </Container>
       <Footer />
