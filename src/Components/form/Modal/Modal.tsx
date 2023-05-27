@@ -165,9 +165,12 @@ function Modal({
           )}
         </div>
         <div className={styles.modalBody} onClick={handleEditNameInput}>
-          <div>
-            <span>Iniciada em: </span>
-            {taskProps?.startDate || dateFormat.formatNewDate(new Date())}
+          <div className={styles.deleteTask}>
+            <p>
+              <span>Iniciada em: </span>
+              {taskProps?.startDate || dateFormat.formatNewDate(new Date())}
+            </p>
+            <button>Excluir Task</button>
           </div>
           <Input
             name="endDate"

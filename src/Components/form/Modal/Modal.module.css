@@ -46,3 +46,19 @@
   justify-content: space-between;
   margin-top: 2em;
 }
+
+.deleteTask {
+  display: flex;
+  justify-content: space-between;
+}
+
+.deleteTask button {
+  background-color: rgb(234, 107, 107);
+  color: #222;
+  border: 1px solid #222;
+  border-radius: 1em;
+  padding: 0.1em;
+  font-size: 12px;
+  margin-bottom: 1em;
+  width: 20%;
+}
