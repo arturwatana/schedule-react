@@ -18,7 +18,6 @@ export type SetPopUpProps = {
 };
 
 function App() {
-  const [user, setUser] = useState<User>();
   const [notification, setNotification] = useState<boolean>(false);
   const [message, setMessage] = useState<MessageProps>({
     text: "",

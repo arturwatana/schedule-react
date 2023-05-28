@@ -1,5 +1,3 @@
-import MobileTaskCard from "../../../Components/MobileTaskCard/MobileTaskCard";
-
 function AboutUs() {
   return (
     <div>
