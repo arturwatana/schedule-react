@@ -39,10 +39,37 @@ export class TaskAPIRepository implements ITaskRepository {
       throw new Error(err.message);
     }
   }
-  findById(id: string): Promise<Task | null> {
-    throw new Error("Method not implemented.");
+  async findById(id: string, token: string): Promise<Task | null> {
+    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authentication: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    return data;
   }
-  updateTask(task: Task): Promise<Task | null> {
-    throw new Error("Method not implemented.");
+  async updateTask(task: Task, token: string): Promise<Task | null> {
+    const res = await fetch(`http://localhost:8080/tasks/${task.id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authentication: `Bearer ${token}`,
+      },
+      body: JSON.stringify(task),
+    });
+    const data = await res.json();
+    return data;
+  }
+  async deleteTask(id: string, token: string): Promise<string> {
+    await fetch(`http://localhost:8080/tasks/${id}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        Authentication: `Bearer ${token}`,
+      },
+    });
+    return "Task Deletada";
   }
 }

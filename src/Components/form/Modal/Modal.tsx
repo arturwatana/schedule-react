@@ -9,6 +9,7 @@ import _ from "lodash";
 import ClickToEdit from "./ClickToEdit/ClickToEdit";
 import { MessageProps } from "../../../pages/Home/MyTasks";
 import TextArea from "../TextArea/TextArea";
+import { TaskAPIRepository } from "../../../repositories/Tasks/API/taskRepository.api";
 
 type ModalProps = {
   isOpen: boolean;
@@ -34,7 +35,7 @@ function Modal({
     taskProps?.description || ""
   );
   const [openEditNameInput, setOpenEditNameInput] = useState<boolean>(false);
-  const taskRepository = new TaskRepositoryFake();
+  const taskRepository = new TaskAPIRepository();
   const dateFormat = new DateFormat();
   if (!isOpen) {
     return null;
@@ -61,25 +62,28 @@ function Modal({
 
   async function editTaskInDB() {
     try {
+      const token = localStorage.getItem("token");
       if (taskProps?.id) {
-        const findTaskInDB = await taskRepository.findById(taskProps.id);
+        const findTaskInDB = await taskRepository.findById(
+          taskProps.id,
+          token || ""
+        );
         if (findTaskInDB) {
           const updatedTask: Task = {
             name,
             urgency,
             endDate,
-            id: findTaskInDB.id,
-            startDate: findTaskInDB.startDate,
-            completed: findTaskInDB.completed,
+            id: taskProps.id,
+            startDate: taskProps.startDate,
+            completed: taskProps.completed,
             description,
           };
-
           const isEqual = _.isEqual(findTaskInDB, updatedTask);
           if (isEqual) {
             handleEditModal(false);
             return;
           }
-          await taskRepository.updateTask(updatedTask);
+          await taskRepository.updateTask(updatedTask, token || "");
           setUpdateScreen(true);
           handleEditModal(false);
           setMessage({
@@ -87,6 +91,7 @@ function Modal({
             type: "success",
           });
           setNotification(true);
+          return;
         }
       }
 
@@ -96,7 +101,7 @@ function Modal({
         endDate,
         urgency,
       });
-      await taskRepository.save(task);
+      await taskRepository.save(task, token || "");
       setUpdateScreen(true);
       handleEditModal(false);
       setMessage({
@@ -115,6 +120,23 @@ function Modal({
       setMessage({
         text: err.message,
         type: "error",
+      });
+      setNotification(true);
+    }
+  }
+
+  async function deleteTask() {
+    if (taskProps?.id) {
+      const token = localStorage.getItem("token");
+      const deletedTask = await taskRepository.deleteTask(
+        taskProps.id,
+        token || ""
+      );
+      setUpdateScreen(true);
+      handleEditModal(false);
+      setMessage({
+        text: deletedTask,
+        type: "success",
       });
       setNotification(true);
     }
@@ -170,7 +192,7 @@ function Modal({
               <span>Iniciada em: </span>
               {taskProps?.startDate || dateFormat.formatNewDate(new Date())}
             </p>
-            <button>Excluir Task</button>
+            <button onClick={deleteTask}>Excluir Task</button>
           </div>
           <Input
             name="endDate"
