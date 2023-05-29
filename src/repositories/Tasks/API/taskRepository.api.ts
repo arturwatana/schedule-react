@@ -50,6 +50,7 @@ export class TaskAPIRepository implements ITaskRepository {
     const data = await res.json();
     return data;
   }
+
   async updateTask(task: Task, token: string): Promise<Task | null> {
     const res = await fetch(`http://localhost:8080/tasks/${task.id}`, {
       method: "PUT",
@@ -71,5 +72,16 @@ export class TaskAPIRepository implements ITaskRepository {
       },
     });
     return "Task Deletada";
+  }
+  async completeTask(id: string, token: string): Promise<Task> {
+    const res = await fetch(`http://localhost:8080/tasks/${id}/completed`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authentication: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    return data;
   }
 }

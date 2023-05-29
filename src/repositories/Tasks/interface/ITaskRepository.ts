@@ -6,4 +6,5 @@ export interface ITaskRepository {
   findById(id: string, token: string): Promise<Task | null>;
   updateTask(task: Task, token: string): Promise<Task | null>;
   deleteTask(id: string, token: string): Promise<string>;
+  completeTask(id: string, token: string): Promise<Task>;
 }
