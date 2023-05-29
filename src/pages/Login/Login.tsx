@@ -1,11 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import ContainerForm from "../../Components/ContainerForm/ContainerForm";
 import Button from "../../Components/form/Button/Button";
 import Input from "../../Components/form/Input/Input";
 import styles from "./Login.module.css";
 import { useState } from "react";
-import Notification from "../../Components/layout/Notification/Notification";
-import { MessageProps } from "../Home/MyTasks";
 import { SetPopUpProps } from "../../App";
 
 function Login({ setMessage, setNotification }: SetPopUpProps) {
@@ -48,6 +46,7 @@ function Login({ setMessage, setNotification }: SetPopUpProps) {
         }
         localStorage.setItem("userEmail", data.email);
         localStorage.setItem("token", data.token);
+        window.location.href = "/mytasks";
       })
       .catch((err) => {
         if (err.message === "Failed to fetch") {
