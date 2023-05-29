@@ -8,7 +8,6 @@ import { useState } from "react";
 import _ from "lodash";
 import ClickToEdit from "./ClickToEdit/ClickToEdit";
 import { MessageProps } from "../../../pages/Home/MyTasks";
-import TextArea from "../TextArea/TextArea";
 import { TaskAPIRepository } from "../../../repositories/Tasks/API/taskRepository.api";
 
 type ModalProps = {
@@ -18,6 +17,7 @@ type ModalProps = {
   taskProps?: Task;
   setMessage: React.Dispatch<React.SetStateAction<MessageProps>>;
   setNotification: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditTask: React.Dispatch<React.SetStateAction<Task>>;
 };
 
 function Modal({
@@ -27,6 +27,7 @@ function Modal({
   setUpdateScreen,
   setMessage,
   setNotification,
+  setEditTask,
 }: ModalProps) {
   const [endDate, setEndDate] = useState<string>(taskProps?.endDate || "");
   const [urgency, setUrgency] = useState<string>(taskProps?.urgency || "");
@@ -35,6 +36,8 @@ function Modal({
     taskProps?.description || ""
   );
   const [openEditNameInput, setOpenEditNameInput] = useState<boolean>(false);
+  const [openEditDescriptionInput, setOpenEditDescriptionInput] =
+    useState<boolean>(false);
   const taskRepository = new TaskAPIRepository();
   const dateFormat = new DateFormat();
   if (!isOpen) {
@@ -62,7 +65,8 @@ function Modal({
 
   async function editTaskInDB() {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || "";
+      const userEmail = localStorage.getItem("userEmail") || "";
       if (taskProps?.id) {
         const findTaskInDB = await taskRepository.findById(
           taskProps.id,
@@ -91,6 +95,16 @@ function Modal({
             type: "success",
           });
           setNotification(true);
+          setEditTask({
+            id: "",
+            name: "",
+            urgency: "",
+            startDate: "",
+            endDate: "",
+            description: "",
+            completed: "Em Andamento",
+            userEmail: "",
+          });
           return;
         }
       }
@@ -100,8 +114,9 @@ function Modal({
         description,
         endDate,
         urgency,
+        userEmail,
       });
-      await taskRepository.save(task, token || "");
+      const taskCreated = await taskRepository.save(task, token);
       setUpdateScreen(true);
       handleEditModal(false);
       setMessage({
@@ -109,6 +124,16 @@ function Modal({
         type: "success",
       });
       setNotification(true);
+      setEditTask({
+        id: "",
+        name: "",
+        urgency: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        completed: "Em Andamento",
+        userEmail: "",
+      });
     } catch (err: any) {
       if (err.message === "Failed to fetch") {
         setMessage({
@@ -127,11 +152,8 @@ function Modal({
 
   async function deleteTask() {
     if (taskProps?.id) {
-      const token = localStorage.getItem("token");
-      const deletedTask = await taskRepository.deleteTask(
-        taskProps.id,
-        token || ""
-      );
+      const token = localStorage.getItem("token") || "";
+      const deletedTask = await taskRepository.deleteTask(taskProps.id, token);
       setUpdateScreen(true);
       handleEditModal(false);
       setMessage({
@@ -139,26 +161,48 @@ function Modal({
         type: "success",
       });
       setNotification(true);
+      setEditTask({
+        id: "",
+        name: "",
+        urgency: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        completed: "Em Andamento",
+        userEmail: "",
+      });
     }
   }
 
-  function handleEditNameInput(e: any) {
-    switch (e.target.id === "modalTittle") {
-      case true: {
+  function handleEditInput(e: any) {
+    switch (e.target.id) {
+      case "modalTitle": {
         setOpenEditNameInput(true);
         break;
       }
-      case false: {
-        setOpenEditNameInput(false);
+      case "taskDescription": {
+        setOpenEditDescriptionInput(true);
         break;
+      }
+      default: {
+        setOpenEditDescriptionInput(false);
+        setOpenEditNameInput(false);
       }
     }
   }
 
   function handleKeyDown(e: any) {
     if (e.key === "Enter") {
-      setName(e.target.value);
-      setOpenEditNameInput(false);
+      switch (e.target.name) {
+        case "name":
+          setName(e.target.value);
+          setOpenEditNameInput(false);
+          break;
+
+        case "description":
+          setDescription(e.target.value);
+          setOpenEditDescriptionInput(false);
+      }
     }
   }
 
@@ -171,22 +215,22 @@ function Modal({
         onClick={() => handleEditModal(false)}
       ></div>
       <div className={styles.modal}>
-        <div className={styles.modalHeader} onClick={handleEditNameInput}>
+        <div className={styles.modalHeader} onClick={handleEditInput}>
           {openEditNameInput ? (
             <ClickToEdit
               previouslyName={name}
-              id="modalTittle"
+              id="modalTitle"
               name="name"
               onChange={handleOnChange}
               onKeyDown={handleKeyDown}
             />
           ) : (
-            <p id="modalTittle" onClick={handleEditNameInput}>
+            <p id="modalTitle" onClick={handleEditInput}>
               {name || "New Task"}
             </p>
           )}
         </div>
-        <div className={styles.modalBody} onClick={handleEditNameInput}>
+        <div className={styles.modalBody} onClick={handleEditInput}>
           <div className={styles.deleteTask}>
             <p>
               <span>Iniciada em: </span>
@@ -208,11 +252,24 @@ function Modal({
             placeholder={taskProps?.urgency || ""}
             onChange={handleOnChange}
           />
-          <TextArea
-            text="Descricão:"
-            onChange={handleOnChange}
-            placeholder={taskProps?.description || ""}
-          />
+          <div className={styles.description} onClick={handleEditInput}>
+            {openEditDescriptionInput ? (
+              <ClickToEdit
+                previouslyName={description}
+                id="taskDescription"
+                name="description"
+                onChange={handleOnChange}
+                onKeyDown={handleKeyDown}
+                customClass="descriptionInput"
+              />
+            ) : (
+              <p id="taskDescription" onClick={handleEditInput}>
+                {description
+                  ? description
+                  : "Escreva uma descricao para a sua task clicando aqui!"}
+              </p>
+            )}
+          </div>
         </div>
         <div className={styles.btn}>
           <Button
