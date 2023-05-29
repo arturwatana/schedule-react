@@ -6,6 +6,7 @@ import styles from "./NewHome.module.css";
 import { Task } from "../../entities/Task/Task.entity";
 import { DateFormat } from "../../utils/DateFormat/DateFormat";
 import { Link } from "react-router-dom";
+import { TaskAPIRepository } from "../../repositories/Tasks/API/taskRepository.api";
 
 function NewHome() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -29,8 +30,10 @@ function NewHome() {
 
   async function getTasksInDB() {
     try {
-      const db = new TaskRepositoryFake();
-      const tasks = await db.showAll();
+      const userEmail = localStorage.getItem("userEmail") || "";
+      const token = localStorage.getItem("token") || "";
+      const db = new TaskAPIRepository();
+      const tasks = await db.showAllByUserEmail(userEmail, token);
       setTasks(tasks);
 
       return tasks;
@@ -85,26 +88,26 @@ function NewHome() {
       <section className={styles.cardGroup}>
         <Link to="/mytasks" state={{ from: { status: "" } }}>
           <BlockCard
-            tittle="Para hoje:"
+            title="Para hoje:"
             description="Tasks"
             value={getTasksByDate(new Date()).length}
             customClass="blue"
           />
         </Link>
         <BlockCard
-          tittle="Tasks vencidas:"
+          title="Tasks vencidas:"
           description="Tasks"
           value={expiredTasks().length}
           customClass="lightBlue"
         />
         <BlockCard
-          tittle="Já concluidas:"
+          title="Já concluidas:"
           description="Tasks"
           value={getCompletedTasks().length}
           customClass="lightBlue"
         />
         <BlockCard
-          tittle="Total:"
+          title="Total:"
           description="Tasks"
           value={tasks.length}
           customClass="blue"

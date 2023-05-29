@@ -5,6 +5,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import { MessageProps } from "../../pages/Home/MyTasks";
 import { useEffect, useState } from "react";
+import { TaskAPIRepository } from "../../repositories/Tasks/API/taskRepository.api";
 
 type TaskCardProps = {
   id: string;
@@ -39,7 +40,7 @@ function TaskCard({
   setMessage,
   mobileTaskList,
 }: TaskCardProps) {
-  const db = new TaskRepositoryFake();
+  const db = new TaskAPIRepository();
 
   const [userEmail, setUserEmail] = useState<string>();
 
@@ -65,17 +66,14 @@ function TaskCard({
 
   async function handleCompleteTask() {
     try {
-      const taskInDB = await db.findById(id);
-      if (taskInDB && taskInDB.completed === "Em Andamento") {
-        taskInDB.completed = "Concluida";
-        db.updateTask(taskInDB);
-        setUpdateScreen(true);
-        setMessage({
-          text: "Oba, mais uma task finalizada!",
-          type: "success",
-        });
-        setNotification(true);
-      }
+      const token = localStorage.getItem("token") || "";
+      await db.completeTask(id, token);
+      setUpdateScreen(true);
+      setMessage({
+        text: "Oba, mais uma task finalizada!",
+        type: "success",
+      });
+      setNotification(true);
     } catch (err: any) {
       if (err.message === "Failed to fetch") {
         setMessage({
@@ -103,7 +101,7 @@ function TaskCard({
         }
       }}
     >
-      <p className={styles.taskCardTittle}>{name}</p>
+      <p className={styles.taskCardtitle}>{name}</p>
       <div>
         <p>
           <span>Inicio:</span> {startDate}
