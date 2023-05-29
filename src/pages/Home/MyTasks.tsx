@@ -250,12 +250,15 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
   }
 
   function handleTaskView() {
-    const screen = window.matchMedia("(max-width: 600px)");
-    if (screen.matches) {
+    const isMobile = window.matchMedia("(max-width: 600px");
+    if (isMobile.matches) {
       setMobileTaskList(true);
       return;
+    } else {
+      setMobileTaskList(false);
     }
   }
+  window.addEventListener("resize", handleTaskView);
 
   useEffect(() => {
     if (updateScreen) {
@@ -278,6 +281,7 @@ function MyTasks({ setMessage, setNotification }: SetPopUpProps) {
           isOpen={modalOpen}
           handleEditModal={setModalOpen}
           taskProps={editTask}
+          setEditTask={setEditTask}
           setMessage={setMessage}
         />
       ) : null}
