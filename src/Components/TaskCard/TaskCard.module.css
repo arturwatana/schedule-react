@@ -11,7 +11,7 @@
   margin-top: 1em;
 }
 
-.taskCardTittle {
+.taskCardtitle {
   background-color: #98dad9;
   border-radius: 1em 1em 0 0;
   color: #222;
@@ -45,6 +45,7 @@
   font-size: 13px;
   font-weight: bold;
   text-align: center;
+  box-shadow: 10px 5px 10px #222;
 }
 
 @media (max-width: 1140px) {
@@ -54,7 +55,7 @@
   .buttons {
     display: none;
   }
-  .taskCardTittle {
+  .taskCardtitle {
     width: 10em;
     height: 100%;
     word-wrap: break-word;
@@ -66,5 +67,9 @@
   .mobileTaskCard > div > p {
     margin-top: 0.5em;
     font-size: 11px;
+  }
+  .mobileTaskCard > div > p,
+  span {
+    color: #222;
   }
 }

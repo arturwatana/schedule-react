@@ -7,3 +7,8 @@
   border: none;
   width: 50%;
 }
+
+.descriptionInput {
+  width: 100%;
+  height: 5em;
+}

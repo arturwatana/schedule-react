@@ -55,10 +55,19 @@
 .deleteTask button {
   background-color: rgb(234, 107, 107);
   color: #222;
-  border: 1px solid #222;
+  border: none;
   border-radius: 1em;
   padding: 0.1em;
+  cursor: pointer;
   font-size: 12px;
   margin-bottom: 1em;
   width: 20%;
+}
+
+.description {
+  margin-top: 1em;
+}
+
+.description p {
+  word-wrap: break-word;
 }
