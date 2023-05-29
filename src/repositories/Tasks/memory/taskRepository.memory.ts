@@ -13,6 +13,21 @@ export class TaskRepository implements ITaskRepository {
     );
     this.tasks = tasksInStorage ? JSON.parse(tasksInStorage) : [];
   }
+  showAllByUserEmail(userEmail: string, token: string): Promise<Task[]> {
+    console.log(userEmail, token);
+
+    throw new Error("Method not implemented.");
+  }
+  deleteTask(id: string, token: string): Promise<string> {
+    console.log(id, token);
+
+    throw new Error("Method not implemented.");
+  }
+  completeTask(id: string, token: string): Promise<Task> {
+    console.log(id, token);
+
+    throw new Error("Method not implemented.");
+  }
   updateTask(): Promise<Task | null> {
     throw new Error("Method not implemented.");
   }

@@ -1,5 +1,4 @@
 import { Task } from "../../../entities/Task/Task.entity";
-import { TaskRepositoryFake } from "../../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import { DateFormat } from "../../../utils/DateFormat/DateFormat";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
@@ -116,7 +115,7 @@ function Modal({
         urgency,
         userEmail,
       });
-      const taskCreated = await taskRepository.save(task, token);
+      await taskRepository.save(task, token);
       setUpdateScreen(true);
       handleEditModal(false);
       setMessage({

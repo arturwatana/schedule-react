@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import BlockCard from "../../Components/BlockCard/BlockCard";
 import Clock from "../../Components/layout/Clock/Clock";
-import { TaskRepositoryFake } from "../../repositories/Tasks/fakeDB/taskRepository.fakeDB";
 import styles from "./NewHome.module.css";
 import { Task } from "../../entities/Task/Task.entity";
 import { DateFormat } from "../../utils/DateFormat/DateFormat";

@@ -7,8 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NewHome from "./pages/NewHome/NewHome";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import { useEffect, useState } from "react";
-import { User } from "./entities/User/User.entity";
+import { useState } from "react";
 import Notification from "./Components/layout/Notification/Notification";
 import AboutUs from "./pages/Home/AboutUs/AboutUs";
 

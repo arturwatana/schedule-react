@@ -1,6 +1,5 @@
 import { DateFormat } from "../../utils/DateFormat/DateFormat";
 import { TaskProps } from "./interface/ITask";
-import { nanoid } from "nanoid";
 export class Task {
   id: string;
   name: string;

@@ -1,4 +1,3 @@
-import { render } from "react-dom";
 import { SetPopUpProps } from "../../App";
 import TaskCard from "../../Components/TaskCard/TaskCard";
 import AddTaskForm from "../../Components/form/AddTaskForm";
