@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import ContainerForm from "../../Components/ContainerForm/ContainerForm";
 import Button from "../../Components/form/Button/Button";
 import Input from "../../Components/form/Input/Input";
@@ -69,7 +69,7 @@ function Register() {
         type: "success",
       });
       setNotification(true);
-      window.location.href = "/login";
+      return redirect("/login");
     } catch (err: any) {
       setMessage({
         text: err.message,

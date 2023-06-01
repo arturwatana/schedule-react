@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import ContainerForm from "../../Components/ContainerForm/ContainerForm";
 import Button from "../../Components/form/Button/Button";
 import Input from "../../Components/form/Input/Input";
@@ -46,7 +46,7 @@ function Login({ setMessage, setNotification }: SetPopUpProps) {
         }
         localStorage.setItem("userEmail", data.email);
         localStorage.setItem("token", data.token);
-        window.location.href = "/mytasks";
+        return redirect("/mytasks");
       })
       .catch((err) => {
         if (err.message === "Failed to fetch") {
