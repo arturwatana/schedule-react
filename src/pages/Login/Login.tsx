@@ -27,7 +27,7 @@ function Login({ setMessage, setNotification }: SetPopUpProps) {
       email,
       password,
     };
-    await fetch("http://localhost:8080/login", {
+    await fetch("https://schedule-backend.vercel.app/login", {
       method: "POST",
       headers: {
         "content-type": "application/json",

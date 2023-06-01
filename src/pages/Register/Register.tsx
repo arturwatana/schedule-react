@@ -52,13 +52,16 @@ function Register() {
     e.preventDefault();
     try {
       const user = User.create(userProps);
-      const registrationRequest = await fetch("http://localhost:8080/users", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const registrationRequest = await fetch(
+        "https://schedule-backend.vercel.app/users",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
       const data = await registrationRequest.json();
       localStorage.setItem("userProps", JSON.stringify(data));
       setMessage({
@@ -66,6 +69,7 @@ function Register() {
         type: "success",
       });
       setNotification(true);
+      window.location.href = "/login";
     } catch (err: any) {
       setMessage({
         text: err.message,
