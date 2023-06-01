@@ -6,8 +6,9 @@ import { Task } from "../../entities/Task/Task.entity";
 import { DateFormat } from "../../utils/DateFormat/DateFormat";
 import { Link } from "react-router-dom";
 import { TaskAPIRepository } from "../../repositories/Tasks/API/taskRepository.api";
+import { SetPopUpProps } from "../../App";
 
-function NewHome() {
+function NewHome({ setMessage, setNotification }: SetPopUpProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const dateFormat = new DateFormat();
 
@@ -37,7 +38,11 @@ function NewHome() {
 
       return tasks;
     } catch (err: any) {
-      console.log(err.message);
+      setMessage({
+        text: err.message,
+        type: "error",
+      });
+      setNotification(true);
     }
   }
 

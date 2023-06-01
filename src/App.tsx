@@ -31,7 +31,15 @@ function App() {
           <Notification message={message.text} customClass={message.type} />
         ) : null}
         <Routes>
-          <Route path="/" element={<NewHome />} />
+          <Route
+            path="/"
+            element={
+              <NewHome
+                setMessage={setMessage}
+                setNotification={setNotification}
+              />
+            }
+          />
           <Route
             path="/mytasks"
             element={
