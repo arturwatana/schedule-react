@@ -48,7 +48,6 @@ function Register() {
   }
 
   async function handleRegistration(e: any) {
-    console.log(userProps);
     e.preventDefault();
     try {
       const user = User.create(userProps);

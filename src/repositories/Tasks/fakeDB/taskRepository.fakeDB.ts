@@ -2,9 +2,15 @@ import { Task } from "../../../entities/Task/Task.entity";
 import { ITaskRepository } from "../interface/ITaskRepository";
 
 export class TaskRepositoryFake implements ITaskRepository {
-  showAllByUserEmail(userEmail: string, token: string): Promise<Task[]> {
-    console.log(userEmail, token);
-    throw new Error("Method not implemented.");
+  async showAllByUserEmail(userEmail: string, token: string): Promise<Task[]> {
+    const res = await fetch("http://localhost:5000/tasks", {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    return data;
   }
   deleteTask(id: string, token: string): Promise<string> {
     console.log(id, token);

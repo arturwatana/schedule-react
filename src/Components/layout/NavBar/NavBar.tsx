@@ -51,9 +51,6 @@ function NavBar() {
               <li>
                 <Link to="/mytasks">My Tasks</Link>
               </li>
-              <li>
-                <Link to="/aboutus">About us</Link>
-              </li>
               <li onClick={logoutUser}>
                 <Link to="/login">{!isLoggedIn ? "Login" : "Logout"}</Link>
               </li>
@@ -67,9 +64,6 @@ function NavBar() {
             </li>
             <li>
               <Link to="/mytasks">My Tasks</Link>
-            </li>
-            <li>
-              <Link to="/aboutus">About us</Link>
             </li>
             <li onClick={logoutUser}>
               <Link to="/login">{!isLoggedIn ? "Login" : "Logout"}</Link>
